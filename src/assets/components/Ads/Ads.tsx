@@ -1,4 +1,4 @@
-import "./Cards.css";
+import "./Ads.css";
 import RadioButtonCheckedOutlinedIcon from "@mui/icons-material/RadioButtonCheckedOutlined";
 import RadioButtonUncheckedOutlinedIcon from "@mui/icons-material/RadioButtonUncheckedOutlined";
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ type Props = {
   }[];
 };
 
-const Cards = (props: Props) => {
+const Ads = (props: Props) => {
   const { datos } = props;
   const [indexImg, setIndexImg] = useState(0);
 
@@ -51,4 +51,4 @@ const Cards = (props: Props) => {
   );
 };
 
-export default Cards;
+export default Ads;

@@ -1,11 +1,11 @@
 import "./News.css";
-import Cards from "../Cards/Cards";
+import Ads from "../Ads/Ads";
 import datos from "../../datos.json";
 
 const News = () => {
   return (
     <div className="new-container">
-      <Cards datos={datos} />
+      <Ads datos={datos} />
     </div>
   );
 };
