@@ -10,8 +10,11 @@ const NavBar = () => {
           <h1 className="navbar-site-title">Fukusuke Sushi-Delivery</h1>
         </Link>
         <nav id="navbar-nav">
-          <NavLink end to="/descubrir" className="navbar-nav-link">
-            Descubrir
+          <NavLink end to="/" className="navbar-nav-link">
+            Home
+          </NavLink>
+          <NavLink end to="/products" className="navbar-nav-link">
+            Productos
           </NavLink>
           <NavLink end to="/categorias" className="navbar-nav-link">
             Categorias

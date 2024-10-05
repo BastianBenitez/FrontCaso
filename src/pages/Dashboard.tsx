@@ -9,6 +9,7 @@ import LayersIcon from "@mui/icons-material/Layers";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import type { Router } from "@toolpad/core";
+import DashMain from "../assets/components/SubPages/DashMain";
 
 // Tipo de ítem de navegación
 type NavigationItem = {
@@ -31,7 +32,7 @@ const NAVIGATION: NavigationItem[] = [
     icon: <DashboardIcon />,
   },
   {
-    segment: "orders",
+    segment: "dashboard/orders",
     title: "Orders",
     icon: <ShoppingCartIcon />,
   },
@@ -43,24 +44,24 @@ const NAVIGATION: NavigationItem[] = [
     title: "Analytics",
   },
   {
-    segment: "reports",
+    segment: "dashboard/reports",
     title: "Reports",
     icon: <BarChartIcon />,
     children: [
       {
-        segment: "sales",
+        segment: "dashboard/sales",
         title: "Sales",
         icon: <DescriptionIcon />,
       },
       {
-        segment: "traffic",
+        segment: "dashboard/traffic",
         title: "Traffic",
         icon: <DescriptionIcon />,
       },
     ],
   },
   {
-    segment: "integrations",
+    segment: "dashboard/integrations",
     title: "Integrations",
     icon: <LayersIcon />,
   },
@@ -69,39 +70,21 @@ const NAVIGATION: NavigationItem[] = [
 // Crear el tema usando Material-UI
 const demoTheme = createTheme({
   palette: {
-    mode: "dark", // o 'dark' para cambiar el modo globalmente
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-  // Puedes usar el `components` para aplicar cambios de estilo global
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        body: {
-          // Puedes agregar variables CSS aquí si necesitas usar `data-toolpad-color-scheme`
-          '[data-toolpad-color-scheme="light"]': {
-            backgroundColor: "#ffffff",
-            color: "#000000",
-          },
-          '[data-toolpad-color-scheme="dark"]': {
-            backgroundColor: "#000000",
-            color: "#ffffff",
-          },
-        },
-      },
-    },
+    mode: "dark",
   },
 });
 
 // Componente que renderiza el contenido dinámico según la ruta
 function DemoPageContent({ pathname }: { pathname: string }) {
+  let element;
+  if (pathname === "/dashboard") {
+    element = <DashMain />;
+  } else {
+    element = (
+      <Typography variant="h4">Dashboard content for {pathname}</Typography>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -112,7 +95,7 @@ function DemoPageContent({ pathname }: { pathname: string }) {
         textAlign: "center",
       }}
     >
-      <Typography variant="h4">Dashboard content for {pathname}</Typography>
+      {element}
     </Box>
   );
 }
@@ -126,7 +109,10 @@ export default function Dashboard() {
     return {
       pathname,
       searchParams: new URLSearchParams(),
-      navigate: (path) => setPathname(String(path)),
+      navigate: (path) => {
+        setPathname(String(path));
+        window.history.pushState({}, "", path); // Cambia la URL sin recargar la página
+      },
     };
   }, [pathname]);
 
