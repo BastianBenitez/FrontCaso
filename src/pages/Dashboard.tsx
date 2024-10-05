@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -89,31 +89,42 @@ export default function Dashboard() {
         title: "Fukusuke Sushi-Delivery",
       }}
     >
-      <DashboardLayout>
-        <Routes>
-          <Route path="/" element={<DashMain />} />
-          <Route path="/admin/manageusers" element={<DataGrids />} />
-          <Route path="/admin/manageproducts" element={<DataGrids />} />
-          <Route
-            path="/orders/generateorder"
-            element={<Typography variant="h4">Generar Pedido</Typography>}
-          />
-          <Route
-            path="/orders/cancelorder"
-            element={<Typography variant="h4">Anular Compra</Typography>}
-          />
-          <Route
-            path="/orders/getdispatchorder"
-            element={
-              <Typography variant="h4">Obtener Orden Despacho</Typography>
-            }
-          />
-          <Route
-            path="*"
-            element={<Typography variant="h4">404 Not Found</Typography>}
-          />
-        </Routes>
-      </DashboardLayout>
+      <Box
+        sx={{
+          mt: "4rem", // Ajustamos el margen superior para compensar el NavBar
+          flexGrow: 1, // Permite que el contenido crezca y ocupe todo el espacio disponible
+          display: "flex", // Usamos flexbox para organizar el contenido
+          flexDirection: "column", // Aseguramos que los elementos estén organizados en columnas
+          minHeight: "100vh", // Ocupa al menos toda la pantalla
+          padding: "1rem", // Espaciado interno
+        }}
+      >
+        <DashboardLayout>
+          <Routes>
+            <Route path="/" element={<DashMain />} />
+            <Route path="/admin/manageusers" element={<DataGrids />} />
+            <Route path="/admin/manageproducts" element={<DataGrids />} />
+            <Route
+              path="/orders/generateorder"
+              element={<Typography variant="h4">Generar Pedido</Typography>}
+            />
+            <Route
+              path="/orders/cancelorder"
+              element={<Typography variant="h4">Anular Compra</Typography>}
+            />
+            <Route
+              path="/orders/getdispatchorder"
+              element={
+                <Typography variant="h4">Obtener Orden Despacho</Typography>
+              }
+            />
+            <Route
+              path="*"
+              element={<Typography variant="h4">404 Not Found</Typography>}
+            />
+          </Routes>
+        </DashboardLayout>
+      </Box>
     </AppProvider>
   );
 }
