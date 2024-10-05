@@ -1,4 +1,4 @@
-import News from "../components/Main/News";
+import News from "../assets/components/News/News";
 
 const Home = () => {
   return (

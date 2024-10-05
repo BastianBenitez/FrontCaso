@@ -1,6 +1,6 @@
 import "./News.css";
 import Cards from "../Cards/Cards";
-import datos from "../../assets/datos.json";
+import datos from "../../datos.json";
 
 const News = () => {
   return (
