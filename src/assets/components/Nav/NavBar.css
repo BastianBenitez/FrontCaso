@@ -1,4 +1,5 @@
-header {
+/* Estilos específicos para el NavBar usando IDs y clases */
+#navbar-header {
   border-bottom: 1px solid #1c2125;
   display: flex;
   flex-direction: row;
@@ -11,26 +12,28 @@ header {
   margin-top: 1rem;
 }
 
-nav {
+#navbar-nav {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
 }
 
-a {
+#navbar-nav .navbar-nav-link {
   text-decoration: none;
   color: #838d9b;
   font-size: 18px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   margin-right: 1rem;
 }
 
-a:hover {
+#navbar-nav .navbar-nav-link:hover {
   color: #f9f9f9;
 }
 
-.login-container {
+#navbar-login-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,18 +42,25 @@ a:hover {
   margin-right: 2rem;
 }
 
-.site-title {
+#navbar-home-link .navbar-site-title {
   margin-left: 2rem;
   color: #fff;
   font-size: 27px;
   text-decoration: none;
 }
 
-.link-home {
+#navbar-home-link {
   text-decoration: none;
   color: inherit;
 }
 
-.active {
+/* Estilo para los elementos activos dentro de NavBar */
+#navbar-nav .navbar-nav-link.active {
   color: #f9f9f9;
+}
+
+/* Mantener el estilo sin cambios para no-style-dashboard */
+.no-style-dashboard {
+  color: inherit;
+  text-decoration: none;
 }

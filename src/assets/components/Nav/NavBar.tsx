@@ -5,19 +5,22 @@ import { Link, NavLink } from "react-router-dom";
 const NavBar = () => {
   return (
     <>
-      <header>
-        <Link className="link-home" to="/">
-          <h1 className="site-title">Waki Storys</h1>
+      <header id="navbar-header">
+        <Link id="navbar-home-link" className="link-home" to="/">
+          <h1 className="navbar-site-title">Waki Storys</h1>
         </Link>
-        <nav>
-          <NavLink end to="/descubrir">
+        <nav id="navbar-nav">
+          <NavLink end to="/descubrir" className="navbar-nav-link">
             Descubrir
           </NavLink>
-          <NavLink end to="/categorias">
+          <NavLink end to="/categorias" className="navbar-nav-link">
             Categorias
           </NavLink>
+          <NavLink end to="/dashboard" className="no-style-dashboard">
+            Dashboard
+          </NavLink>
         </nav>
-        <div className="login-container">
+        <div id="navbar-login-container" className="login-container">
           <Button variant="contained">Login</Button>
           <Button variant="outlined">Register</Button>
         </div>

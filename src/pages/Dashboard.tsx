@@ -1,5 +1,6 @@
+import * as React from "react";
 import { Box, Typography } from "@mui/material";
-import { createTheme, Theme } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -7,7 +8,9 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import LayersIcon from "@mui/icons-material/Layers";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
+import type { Router, Navigation } from "@toolpad/core";
 
+// Tipo de ítem de navegación
 type NavigationItem = {
   kind?: string;
   segment?: string;
@@ -16,6 +19,7 @@ type NavigationItem = {
   children?: NavigationItem[];
 };
 
+// Definición de la navegación
 const NAVIGATION: NavigationItem[] = [
   {
     kind: "header",
@@ -62,10 +66,10 @@ const NAVIGATION: NavigationItem[] = [
   },
 ];
 
-// Crear el tema usando los tipos de Material-UI
-const demoTheme: Theme = createTheme({
+// Crear el tema usando Material-UI
+const demoTheme = createTheme({
   palette: {
-    mode: "light", // Cambiar a "dark" para un tema oscuro
+    mode: "dark", // o 'dark' para cambiar el modo globalmente
   },
   breakpoints: {
     values: {
@@ -76,16 +80,64 @@ const demoTheme: Theme = createTheme({
       xl: 1536,
     },
   },
+  // Puedes usar el `components` para aplicar cambios de estilo global
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          // Puedes agregar variables CSS aquí si necesitas usar `data-toolpad-color-scheme`
+          '[data-toolpad-color-scheme="light"]': {
+            backgroundColor: "#ffffff",
+            color: "#000000",
+          },
+          '[data-toolpad-color-scheme="dark"]': {
+            backgroundColor: "#000000",
+            color: "#ffffff",
+          },
+        },
+      },
+    },
+  },
 });
 
-// Componente Dashboard
-export default function Dashboard() {
+// Componente que renderiza el contenido dinámico según la ruta
+function DemoPageContent({ pathname }: { pathname: string }) {
   return (
-    <AppProvider navigation={NAVIGATION as any} theme={demoTheme}>
+    <Box
+      sx={{
+        py: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="h4">Dashboard content for {pathname}</Typography>
+    </Box>
+  );
+}
+
+// Componente Dashboard mejorado
+export default function Dashboard() {
+  const [pathname, setPathname] = React.useState("/dashboard");
+
+  // Definir el router para manejar la navegación
+  const router = React.useMemo<Router>(() => {
+    return {
+      pathname,
+      searchParams: new URLSearchParams(),
+      navigate: (path) => setPathname(String(path)),
+    };
+  }, [pathname]);
+
+  return (
+    <AppProvider
+      navigation={NAVIGATION as any}
+      theme={demoTheme}
+      router={router}
+    >
       <DashboardLayout>
-        <Box sx={{ padding: 2 }}>
-          <Typography variant="h4">Welcome to the Dashboard</Typography>
-        </Box>
+        <DemoPageContent pathname={pathname} />
       </DashboardLayout>
     </AppProvider>
   );
