@@ -135,6 +135,10 @@ export default function Dashboard() {
       navigation={NAVIGATION as any}
       theme={demoTheme}
       router={router}
+      branding={{
+        //logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+        title: "Fukusuke Sushi-Delivery",
+      }}
     >
       <DashboardLayout>
         <DemoPageContent pathname={pathname} />

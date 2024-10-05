@@ -7,7 +7,7 @@ const NavBar = () => {
     <>
       <header id="navbar-header">
         <Link id="navbar-home-link" className="link-home" to="/">
-          <h1 className="navbar-site-title">Waki Storys</h1>
+          <h1 className="navbar-site-title">Fukusuke Sushi-Delivery</h1>
         </Link>
         <nav id="navbar-nav">
           <NavLink end to="/descubrir" className="navbar-nav-link">
@@ -16,7 +16,7 @@ const NavBar = () => {
           <NavLink end to="/categorias" className="navbar-nav-link">
             Categorias
           </NavLink>
-          <NavLink end to="/dashboard" className="no-style-dashboard">
+          <NavLink end to="/dashboard" className="navbar-nav-link">
             Dashboard
           </NavLink>
         </nav>
