@@ -1,11 +1,23 @@
-import NavBar from "../assets/components//Nav/NavBar";
+import NavBar from "../assets/components/Nav/NavBar";
 import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
+
 const Layout = () => {
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <NavBar />
-      <Outlet />
-    </>
+      <Box sx={{ flexGrow: 1, paddingTop: "5rem" }}>
+        {" "}
+        {/* Aseguramos que haya suficiente espacio para el NavBar */}
+        <Outlet />
+      </Box>
+    </Box>
   );
 };
 
