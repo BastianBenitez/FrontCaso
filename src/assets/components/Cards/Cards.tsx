@@ -37,7 +37,7 @@ const Cards = (props: Props) => {
         </a>
       </div>
       <div>
-        {datos.map((dato, index) => (
+        {datos.map((_, index) => (
           <button key={index} onClick={() => handleIndex(index)}>
             {index === indexImg ? (
               <RadioButtonCheckedOutlinedIcon color="primary" />
