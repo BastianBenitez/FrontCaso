@@ -91,7 +91,7 @@ export default function Dashboard() {
     >
       <Box
         sx={{
-          mt: "4rem", // Ajustamos el margen superior para compensar el NavBar
+          // Ajustamos el margen superior para compensar el NavBar
           flexGrow: 1, // Permite que el contenido crezca y ocupe todo el espacio disponible
           display: "flex", // Usamos flexbox para organizar el contenido
           flexDirection: "column", // Aseguramos que los elementos estén organizados en columnas
