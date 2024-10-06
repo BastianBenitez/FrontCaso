@@ -13,7 +13,7 @@ const Home = () => {
           flexGrow: 1,
           display: "flex",
           justifyContent: "center",
-          margin: "2.5rem auto",
+          margin: "0 auto",
         }}
       >
         <Grid
