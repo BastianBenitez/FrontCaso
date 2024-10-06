@@ -91,12 +91,11 @@ export default function Dashboard() {
     >
       <Box
         sx={{
-          // Ajustamos el margen superior para compensar el NavBar
-          flexGrow: 1, // Permite que el contenido crezca y ocupe todo el espacio disponible
-          display: "flex", // Usamos flexbox para organizar el contenido
-          flexDirection: "column", // Aseguramos que los elementos estén organizados en columnas
-          minHeight: "100vh", // Ocupa al menos toda la pantalla
-          padding: "1rem", // Espaciado interno
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          padding: "1rem",
         }}
       >
         <DashboardLayout>
