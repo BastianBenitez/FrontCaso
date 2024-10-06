@@ -95,7 +95,6 @@ export default function Dashboard() {
           display: "flex",
           flexDirection: "column",
           minHeight: "100vh",
-          padding: "1rem",
         }}
       >
         <DashboardLayout>
