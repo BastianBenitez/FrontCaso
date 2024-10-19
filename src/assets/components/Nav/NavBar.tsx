@@ -19,9 +19,6 @@ const NavBar = () => {
           <NavLink end to="/categorias" className="navbar-nav-link">
             Categorias
           </NavLink>
-          <NavLink end to="/dashboard" className="navbar-nav-link">
-            Dashboard
-          </NavLink>
         </nav>
         <div id="navbar-login-container" className="login-container">
           <Button variant="contained">Login</Button>

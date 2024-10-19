@@ -1,4 +1,3 @@
-import News from "../assets/components/News/News";
 import ProductCard from "../assets/components/Card/ProductCard";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
@@ -6,7 +5,6 @@ import { Box } from "@mui/material";
 const Home = () => {
   return (
     <>
-      <News />
       <Box
         sx={{
           maxWidth: "1600px",
