@@ -1,5 +1,5 @@
 // NavBar.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close"; // Icono para cerrar el menú
+import CloseIcon from "@mui/icons-material/Close";
 import NavButton from "./NavButton";
 import LinkBar from "./LinkBar";
 
@@ -33,9 +33,9 @@ const NavBar = () => {
     <Box
       sx={{
         width: 250,
-        backgroundColor: "rgba(0, 0, 0, 0.8)", // Fondo semitransparente más oscuro
-        height: "100%", // Asegura que ocupe toda la altura
-        color: "white", // Hace que el texto sea blanco
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        height: "100%",
+        color: "white",
       }}
       role="presentation"
       onClick={toggleDrawer(false)}
@@ -87,8 +87,8 @@ const NavBar = () => {
         onClose={toggleDrawer(false)}
         sx={{
           "& .MuiDrawer-paper": {
-            backgroundColor: "rgba(0, 0, 0, 0.8)", // Hacer que el Drawer sea semitransparente
-            backdropFilter: "blur(5px)", // Aplicar un efecto de desenfoque en el fondo
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            backdropFilter: "blur(5px)",
           },
         }}
       >
