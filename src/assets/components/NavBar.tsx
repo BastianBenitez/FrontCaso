@@ -1,5 +1,5 @@
 // NavBar.tsx
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "@mui/icons-material/Close"; // Icono para cerrar el menú
 import NavButton from "./NavButton";
 import LinkBar from "./LinkBar";
 
@@ -25,7 +25,6 @@ const NavBar = () => {
   const links = [
     { to: "/", label: "Inicio" },
     { to: "/menu", label: "Menú" },
-    { to: "/contact", label: "Contacto" },
     { to: "/login", label: "Iniciar Sesión" },
   ];
 
@@ -33,9 +32,9 @@ const NavBar = () => {
     <Box
       sx={{
         width: 250,
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        height: "100%",
-        color: "white",
+        backgroundColor: "rgba(0, 0, 0, 0.8)", // Fondo semitransparente más oscuro
+        height: "100%", // Asegura que ocupe toda la altura
+        color: "white", // Hace que el texto sea blanco
       }}
       role="presentation"
       onClick={toggleDrawer(false)}
@@ -75,7 +74,7 @@ const NavBar = () => {
           onClick={toggleDrawer(true)}
           sx={{ display: { xs: "block", md: "none" } }}
         >
-          <MenuIcon />
+          <MenuIcon sx={{ fontSize: 40 }} /> {/* Ajusta el tamaño del ícono */}
         </IconButton>
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
           <LinkBar links={links} />
@@ -87,8 +86,8 @@ const NavBar = () => {
         onClose={toggleDrawer(false)}
         sx={{
           "& .MuiDrawer-paper": {
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            backdropFilter: "blur(5px)",
+            backgroundColor: "rgba(0, 0, 0, 0.8)", // Hacer que el Drawer sea semitransparente
+            backdropFilter: "blur(5px)", // Aplicar un efecto de desenfoque en el fondo
           },
         }}
       >
