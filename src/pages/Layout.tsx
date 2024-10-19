@@ -12,11 +12,7 @@ const Layout = () => {
       }}
     >
       <NavBar />
-      <Box sx={{ flexGrow: 1 }}>
-        {" "}
-        {/* Aseguramos que haya suficiente espacio para el NavBar */}
-        <Outlet />
-      </Box>
+      <Outlet />
     </Box>
   );
 };
