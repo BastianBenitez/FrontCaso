@@ -1,4 +1,4 @@
-import ProductCard from "../assets/components/Card/ProductCard";
+import ProductCard from "../assets/components/ProductCard";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 
