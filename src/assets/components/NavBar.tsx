@@ -1,5 +1,5 @@
 // NavBar.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   AppBar,
   Toolbar,
