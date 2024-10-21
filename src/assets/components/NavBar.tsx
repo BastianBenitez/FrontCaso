@@ -32,7 +32,7 @@ const NavBar = () => {
     <Box
       sx={{
         width: 250,
-        backgroundColor: "rgba(0, 0, 0, 0.8)", // Fondo semitransparente más oscuro
+        backgroundColor: "rgba(0, 0, 0, 0.1)", // Fondo semitransparente más oscuro
         height: "100%", // Asegura que ocupe toda la altura
         color: "white", // Hace que el texto sea blanco
       }}
@@ -108,8 +108,7 @@ const NavBar = () => {
             onClick={toggleDrawer(true)}
             sx={{ display: { xs: "block", md: "none" } }}
           >
-            <MenuIcon sx={{ fontSize: 40 }} />{" "}
-            {/* Ajusta el tamaño del ícono */}
+            <MenuIcon sx={{ fontSize: 40, marginRight: " 1rem" }} />{" "}
           </IconButton>
         </Toolbar>
       </Box>
@@ -120,7 +119,7 @@ const NavBar = () => {
         onClose={toggleDrawer(false)}
         sx={{
           "& .MuiDrawer-paper": {
-            backgroundColor: "rgba(0, 0, 0, 0.8)", // Hacer que el Drawer sea semitransparente
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Hacer que el Drawer sea semitransparente
             backdropFilter: "blur(5px)", // Aplicar un efecto de desenfoque en el fondo
           },
         }}
