@@ -68,6 +68,7 @@ const NavBar = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center", // Centrar el contenido
+        overflowX: "hidden", // Evitar el desbordamiento horizontal
       }}
     >
       <Box
@@ -75,6 +76,7 @@ const NavBar = () => {
           maxWidth: "1400px", // Ancho máximo de 1400px
           width: "100%",
           padding: "0 24px", // Espacio lateral
+          boxSizing: "border-box", // Asegura que el padding no cause desbordamiento
         }}
       >
         <Toolbar
@@ -93,6 +95,7 @@ const NavBar = () => {
               display: { xs: "none", md: "flex" },
               alignItems: "center",
               ml: 4, // Margen izquierdo para dar espacio entre el título y los enlaces
+              overflowX: "hidden", // Evita el desbordamiento horizontal en el contenedor
             }}
           >
             <LinkBar links={links} />
