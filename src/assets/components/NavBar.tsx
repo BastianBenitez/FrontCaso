@@ -61,25 +61,56 @@ const NavBar = () => {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "transparent", boxShadow: "none" }}
+      sx={{
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center", // Centrar el contenido
+      }}
     >
-      <Toolbar>
-        <Typography variant="h5" sx={{ flexGrow: 1, color: "white" }}>
-          Mi Restaurante de Sushi
-        </Typography>
-        <IconButton
-          edge="end"
-          color="inherit"
-          aria-label="menu"
-          onClick={toggleDrawer(true)}
-          sx={{ display: { xs: "block", md: "none" } }}
+      <Box
+        sx={{
+          maxWidth: "1400px", // Ancho máximo de 1400px
+          width: "100%",
+          padding: "0 24px", // Espacio lateral
+        }}
+      >
+        <Toolbar
+          sx={{
+            justifyContent: "space-between", // Espacio entre el título y los enlaces
+            alignItems: "center",
+            width: "100%",
+          }}
         >
-          <MenuIcon sx={{ fontSize: 40 }} /> {/* Ajusta el tamaño del ícono */}
-        </IconButton>
-        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-          <LinkBar links={links} />
-        </Box>
-      </Toolbar>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            Mi Restaurante de Sushi
+          </Typography>
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              ml: 4, // Margen izquierdo para dar espacio entre el título y los enlaces
+            }}
+          >
+            <LinkBar links={links} />
+          </Box>
+
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+            sx={{ display: { xs: "block", md: "none" } }}
+          >
+            <MenuIcon sx={{ fontSize: 40 }} />{" "}
+            {/* Ajusta el tamaño del ícono */}
+          </IconButton>
+        </Toolbar>
+      </Box>
+
       <Drawer
         anchor="right"
         open={drawerOpen}
