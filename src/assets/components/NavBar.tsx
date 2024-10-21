@@ -85,7 +85,7 @@ const NavBar = () => {
           }}
         >
           <Typography variant="h5" sx={{ color: "white" }}>
-            Mi Restaurante de Sushi
+            Fukusuke Sushi
           </Typography>
 
           <Box
