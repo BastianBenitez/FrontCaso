@@ -33,6 +33,7 @@ const Home = () => {
             height: "100%",
             objectFit: "cover",
             overflow: "hidden", // Asegúrate de que el video no se desborde
+            opacity: 0.65,
           }}
           src="https://sushishop.com/wp-content/uploads/2024/10/SS24_HP.mp4"
           autoPlay
