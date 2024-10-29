@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "@fontsource/poppins"; // Importa la nueva fuente
 import Presentation from "../assets/components/Presentation"; // Asegúrate de ajustar la ruta según tu estructura de carpetas
+import BackGround from "../assets/components/BackGround";
 
 const theme = createTheme({
   typography: {
@@ -24,21 +25,9 @@ const Home = () => {
           zIndex: -1,
         }}
       >
-        <video
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            overflow: "hidden", // Asegúrate de que el video no se desborde
-            opacity: 0.65,
-          }}
+        <BackGround
+          opacity={0.65}
           src="https://sushishop.com/wp-content/uploads/2024/10/SS24_HP.mp4"
-          autoPlay
-          muted
-          loop
         />
       </Box>
 
@@ -53,7 +42,7 @@ const Home = () => {
           alignItems: "center", // Centra verticalmente el contenido
         }}
       >
-        <Presentation /> {/* Aquí usas el nuevo componente */}
+        <Presentation />
       </Box>
     </ThemeProvider>
   );
