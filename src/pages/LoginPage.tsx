@@ -1,25 +1,54 @@
 import React, { useState } from "react";
-import { Box, Button, TextField, Typography, Link } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Link,
+  Snackbar,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Lógica de autenticación
+  const handleLogin = async () => {
     if (validateEmail(email)) {
-      console.log("Email:", email);
-      console.log("Password:", password);
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/auth/login",
+          {
+            email,
+            contrasena: password,
+          }
+        );
+
+        // Mostrar mensaje de éxito en consola
+        console.log(response.data.message); // "Inicio de sesión exitoso"
+
+        // Redirigir al usuario después del inicio de sesión exitoso
+        navigate("/"); // Cambia a la ruta que necesites después de iniciar sesión
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          setSnackbarMessage("Credenciales inválidas");
+        } else {
+          setSnackbarMessage("Error al iniciar sesión. Inténtalo de nuevo.");
+        }
+        setSnackbarOpen(true); // Abre el snackbar en caso de error
+      }
     } else {
       console.log("Formato de correo inválido");
     }
   };
 
   const validateEmail = (email: string) => {
-    // Expresión regular para validar el formato del correo
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -35,6 +64,10 @@ const LoginPage: React.FC = () => {
 
   const handleRegisterRedirect = () => {
     navigate("/register"); // Ruta a la página de registro
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -113,6 +146,12 @@ const LoginPage: React.FC = () => {
           </Link>
         </Typography>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </Box>
   );
 };
