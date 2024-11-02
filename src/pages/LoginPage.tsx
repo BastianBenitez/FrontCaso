@@ -27,7 +27,8 @@ const LoginPage: React.FC = () => {
           {
             email,
             contrasena: password,
-          }
+          },
+          { withCredentials: true }
         );
 
         // Mostrar mensaje de éxito en consola

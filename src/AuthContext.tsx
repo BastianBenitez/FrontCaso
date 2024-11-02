@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 // Define la interfaz para los datos del usuario
@@ -16,6 +17,7 @@ interface User {
   direccion: string;
   fechaRegistro: Date;
   isAdmin: boolean;
+  _id: string;
 }
 
 // Define la interfaz para el contexto de autenticación
@@ -25,31 +27,44 @@ interface AuthContextType {
   logout: () => void;
 }
 
-// Crear el contexto con un valor por defecto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Proveedor del contexto
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  const isTokenValid = (token: string): boolean => {
+    const decoded: any = jwtDecode(token);
+    return decoded.exp * 1000 > Date.now();
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const userData: User = jwtDecode(token); // Decodifica el token
-      setUser(userData);
+    const token = Cookies.get("token"); // Obtener el token de las cookies
+    console.log("Token desde las cookies:", token); // Log para el valor del token
+
+    if (token && isTokenValid(token)) {
+      try {
+        const userData: User = jwtDecode(token);
+        console.log("Token decodificado:", userData);
+        setUser(userData);
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
+      }
     }
   }, []);
 
   const login = (userData: { token: string; user: User }) => {
-    localStorage.setItem("token", userData.token); // Almacena el token en localStorage
-    setUser(userData.user); // Actualiza el estado del usuario
+    console.log("Iniciando sesión con el token:", userData.token);
+    Cookies.set("token", userData.token, { path: "/" }); // Almacenar el token en las cookies
+    console.log("Token almacenado en cookies:", Cookies.get("token")); // Verifica el valor almacenado
+    setUser(userData.user);
   };
 
   const logout = () => {
-    localStorage.removeItem("token"); // Elimina el token de localStorage
-    setUser(null); // Limpia el estado del usuario
+    console.log("Cerrando sesión...");
+    Cookies.remove("token"); // Eliminar el token de las cookies
+    setUser(null);
   };
 
   return (

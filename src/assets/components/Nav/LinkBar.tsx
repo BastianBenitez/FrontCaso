@@ -3,7 +3,7 @@ import { Box, Link } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
 interface LinkBarProps {
-  links: { to: string; label: string }[]; // Array de objetos con la ruta y la etiqueta del enlace
+  links: { to?: string; label: string; action?: () => void }[]; // Hacer to opcional
 }
 
 const LinkBar: React.FC<LinkBarProps> = ({ links }) => {
@@ -11,9 +11,10 @@ const LinkBar: React.FC<LinkBarProps> = ({ links }) => {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       {links.map((link) => (
         <Link
-          key={link.to}
-          component={NavLink}
-          to={link.to}
+          key={link.label} // Usar label como clave única, asumiendo que es único
+          component={link.action ? "span" : NavLink} // Usa "span" si hay acción
+          to={!link.action ? link.to : undefined} // Establece `to` solo si no hay acción
+          onClick={link.action} // Llama a la acción si existe
           sx={{
             color: "white",
             textDecoration: "none",
