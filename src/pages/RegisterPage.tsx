@@ -14,7 +14,7 @@ const RegisterPage: React.FC = () => {
   const [contrasenaError, setContrasenaError] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (
       validateEmail(email) &&
       validatePassword(contrasena, confirmContrasena)
@@ -29,8 +29,30 @@ const RegisterPage: React.FC = () => {
         fechaRegistro: new Date(),
         isAdmin: false, // Por defecto, el nuevo usuario no es admin
       };
-      console.log("Usuario registrado:", newUser);
-      // Aquí puedes implementar la lógica para enviar el nuevo usuario al servidor
+
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Error en la solicitud de registro");
+        }
+
+        const result = await response.json();
+        console.log("Usuario registrado:", result);
+        // Aquí puedes redirigir al usuario a la página de inicio o login después de un registro exitoso
+        navigate("/login"); // Redirigir a la página de inicio de sesión
+      } catch (error) {
+        console.error("Error al registrar el usuario:", error);
+      }
     }
   };
 
