@@ -8,8 +8,8 @@ import {
   Snackbar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useAuth } from "../AuthContext"; // Ajusta la ruta al archivo de AuthContext
+import { useAuth } from "../AuthContext";
+import { loginUser } from "../services/authService";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -21,32 +21,16 @@ const LoginPage: React.FC = () => {
   const { login } = useAuth(); // Usa el contexto de autenticación
 
   const handleLogin = async () => {
-    if (validateEmail(email)) {
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/auth/login",
-          { email, contrasena: password },
-          { withCredentials: true }
-        );
-
-        console.log(response.data); // Verificar que contenga un token válido
-
-        // Pasar el token y los datos de usuario al AuthContext
-        if (response.data.token) {
-          // Guardar el token en una cookie
-          login({ token: response.data.token, user: response.data.user });
-          navigate("/");
-        }
-      } catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          setSnackbarMessage("Credenciales inválidas");
-        } else {
-          setSnackbarMessage("Error al iniciar sesión. Inténtalo de nuevo.");
-        }
-        setSnackbarOpen(true);
+    try {
+      // Declara el tipo de `data` directamente
+      const data: { token: string; user: { id: string; email: string } } =
+        await loginUser(email, password);
+      if (data.token) {
+        login(email, password); // Utiliza login del contexto
       }
-    } else {
-      console.log("Formato de correo inválido");
+    } catch {
+      setSnackbarMessage("Error al iniciar sesión. Inténtalo de nuevo.");
+      setSnackbarOpen(true);
     }
   };
 
