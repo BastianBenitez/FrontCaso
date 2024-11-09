@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../AuthContext"; // Ajusta la ruta al archivo de AuthContext
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -17,31 +18,32 @@ const LoginPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth(); // Usa el contexto de autenticación
 
   const handleLogin = async () => {
     if (validateEmail(email)) {
       try {
         const response = await axios.post(
           "http://localhost:3000/api/auth/login",
-          {
-            email,
-            contrasena: password,
-          },
+          { email, contrasena: password },
           { withCredentials: true }
         );
 
-        // Mostrar mensaje de éxito en consola
-        console.log(response.data.message); // "Inicio de sesión exitoso"
+        console.log(response.data); // Verificar que contenga un token válido
 
-        // Redirigir al usuario después del inicio de sesión exitoso
-        navigate("/"); // Cambia a la ruta que necesites después de iniciar sesión
+        // Pasar el token y los datos de usuario al AuthContext
+        if (response.data.token) {
+          // Guardar el token en una cookie
+          login({ token: response.data.token, user: response.data.user });
+          navigate("/");
+        }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
           setSnackbarMessage("Credenciales inválidas");
         } else {
           setSnackbarMessage("Error al iniciar sesión. Inténtalo de nuevo.");
         }
-        setSnackbarOpen(true); // Abre el snackbar en caso de error
+        setSnackbarOpen(true);
       }
     } else {
       console.log("Formato de correo inválido");
