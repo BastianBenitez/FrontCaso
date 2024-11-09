@@ -41,19 +41,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const token = Cookies.get("token"); // Obtener el token de las cookies
+    console.log("Token desde las cookies:", token); // Log para el valor del token
 
-    if (token) {
+    if (token && isTokenValid(token)) {
       try {
-        if (isTokenValid(token)) {
-          const userData: User = jwtDecode(token);
-          console.log("Token decodificado:", userData);
-          setUser(userData);>
-        }
+        const userData: User = jwtDecode(token);
+        console.log("Token decodificado:", userData);
+        setUser(userData);
       } catch (error) {
         console.error("Error al decodificar el token:", error);
       }
-    } else {
-      console.log("Token no encontrado o inválido");
     }
   }, []);
 
