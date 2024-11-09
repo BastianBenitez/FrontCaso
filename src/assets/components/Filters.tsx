@@ -16,23 +16,6 @@ interface FiltersProps {
   setSortOrder: (value: string) => void;
 }
 
-// Estilos comunes para los componentes
-const inputStyles = {
-  backgroundColor: "rgba(255, 255, 255, 0.8)",
-  borderRadius: 2,
-  "& .MuiOutlinedInput-root": {
-    "& fieldset": {
-      borderColor: "#007BFF",
-    },
-    "&:hover fieldset": {
-      borderColor: "#0056b3",
-    },
-    "&.Mui-focused fieldset": {
-      borderColor: "#0056b3",
-    },
-  },
-};
-
 const Filters = ({
   filter,
   setFilter,
@@ -44,14 +27,13 @@ const Filters = ({
   return (
     <Box
       sx={{
-        display: { xs: "block", sm: "flex" },
+        display: { xs: "block", sm: "flex" }, // Cambia a bloque en pantallas pequeñas
         justifyContent: "center",
         marginBottom: "20px",
         position: "relative",
         zIndex: 1,
       }}
     >
-      {/* Campo de búsqueda */}
       <TextField
         label="Buscar"
         variant="outlined"
@@ -61,26 +43,37 @@ const Filters = ({
         sx={{
           marginBottom: { xs: 2, sm: 0 },
           marginRight: { sm: 2 },
-          ...inputStyles,
+          backgroundColor: "#1a1a1a", // Fondo oscuro
+          color: "white", // Color del texto blanco
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#b0b0b0", // Color de borde similar al login
+            },
+            "&:hover fieldset": {
+              borderColor: "#1976d2", // Color de borde al hacer hover
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#1976d2", // Color de borde cuando está enfocado
+            },
+          },
         }}
         InputLabelProps={{
           sx: {
-            color: "rgba(0, 0, 0, 0.7)",
+            color: "#b0b0b0", // Color de la etiqueta
             "&.Mui-focused": {
-              color: "#0056b3",
+              color: "#1976d2", // Color de la etiqueta cuando está enfocada
             },
           },
         }}
         InputProps={{
           sx: {
+            color: "white", // Color del texto
             "&::placeholder": {
-              color: "rgba(0, 0, 0, 0.5)",
+              color: "#b0b0b0", // Color del placeholder
             },
           },
         }}
       />
-
-      {/* Filtro por disponibilidad */}
       <FormControl
         variant="outlined"
         sx={{
@@ -89,12 +82,28 @@ const Filters = ({
           marginBottom: { xs: 2, sm: 0 },
         }}
       >
-        <InputLabel>Filtrar por disponibilidad</InputLabel>
+        <InputLabel sx={{ color: "#b0b0b0" }}>
+          Filtrar por disponibilidad
+        </InputLabel>
         <Select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           label="Filtrar por disponibilidad"
-          sx={inputStyles}
+          sx={{
+            backgroundColor: "#1a1a1a", // Fondo oscuro
+            color: "white", // Color del texto blanco
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#b0b0b0",
+              },
+              "&:hover fieldset": {
+                borderColor: "#1976d2",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#1976d2",
+              },
+            },
+          }}
         >
           <MenuItem value="">
             <em>Todos</em>
@@ -103,18 +112,30 @@ const Filters = ({
           <MenuItem value="unavailable">No disponibles</MenuItem>
         </Select>
       </FormControl>
-
-      {/* Ordenar por precio */}
       <FormControl
         variant="outlined"
         sx={{ minWidth: { xs: "100%", sm: 200 } }}
       >
-        <InputLabel>Ordenar por precio</InputLabel>
+        <InputLabel sx={{ color: "#b0b0b0" }}>Ordenar por precio</InputLabel>
         <Select
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
           label="Ordenar por precio"
-          sx={inputStyles}
+          sx={{
+            backgroundColor: "#1a1a1a",
+            color: "white",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#b0b0b0",
+              },
+              "&:hover fieldset": {
+                borderColor: "#1976d2",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#1976d2",
+              },
+            },
+          }}
         >
           <MenuItem value="asc">Menor a Mayor</MenuItem>
           <MenuItem value="desc">Mayor a Menor</MenuItem>
