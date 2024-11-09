@@ -28,9 +28,6 @@ const LoginPage: React.FC = () => {
           { email, contrasena: password },
           { withCredentials: true }
         );
-
-        console.log(response.data); // Verificar que contenga un token válido
-
         // Pasar el token y los datos de usuario al AuthContext
         if (response.data.token) {
           // Guardar el token en una cookie
