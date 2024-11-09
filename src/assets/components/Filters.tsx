@@ -16,6 +16,23 @@ interface FiltersProps {
   setSortOrder: (value: string) => void;
 }
 
+// Estilos comunes para los componentes
+const inputStyles = {
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+  borderRadius: 2,
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#007BFF",
+    },
+    "&:hover fieldset": {
+      borderColor: "#0056b3",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#0056b3",
+    },
+  },
+};
+
 const Filters = ({
   filter,
   setFilter,
@@ -27,35 +44,24 @@ const Filters = ({
   return (
     <Box
       sx={{
-        display: { xs: "block", sm: "flex" }, // Cambia a bloque en pantallas pequeñas
+        display: { xs: "block", sm: "flex" },
         justifyContent: "center",
         marginBottom: "20px",
         position: "relative",
         zIndex: 1,
       }}
     >
+      {/* Campo de búsqueda */}
       <TextField
         label="Buscar"
         variant="outlined"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        fullWidth // Asegura que el campo ocupe el ancho completo
+        fullWidth
         sx={{
-          marginBottom: { xs: 2, sm: 0 }, // Espacio en la parte inferior en pantallas pequeñas
-          marginRight: { sm: 2 }, // Espacio a la derecha solo en pantallas más grandes
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          borderRadius: 2,
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#007BFF",
-            },
-            "&:hover fieldset": {
-              borderColor: "#0056b3",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "#0056b3",
-            },
-          },
+          marginBottom: { xs: 2, sm: 0 },
+          marginRight: { sm: 2 },
+          ...inputStyles,
         }}
         InputLabelProps={{
           sx: {
@@ -73,34 +79,22 @@ const Filters = ({
           },
         }}
       />
+
+      {/* Filtro por disponibilidad */}
       <FormControl
         variant="outlined"
         sx={{
           minWidth: { xs: "100%", sm: 220 },
           marginRight: { sm: 2 },
           marginBottom: { xs: 2, sm: 0 },
-        }} // Espacio en la parte inferior en pantallas pequeñas
+        }}
       >
         <InputLabel>Filtrar por disponibilidad</InputLabel>
         <Select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           label="Filtrar por disponibilidad"
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-            borderRadius: 2,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#007BFF",
-              },
-              "&:hover fieldset": {
-                borderColor: "#0056b3",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#0056b3",
-              },
-            },
-          }}
+          sx={inputStyles}
         >
           <MenuItem value="">
             <em>Todos</em>
@@ -109,6 +103,8 @@ const Filters = ({
           <MenuItem value="unavailable">No disponibles</MenuItem>
         </Select>
       </FormControl>
+
+      {/* Ordenar por precio */}
       <FormControl
         variant="outlined"
         sx={{ minWidth: { xs: "100%", sm: 200 } }}
@@ -118,21 +114,7 @@ const Filters = ({
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value)}
           label="Ordenar por precio"
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-            borderRadius: 2,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#007BFF",
-              },
-              "&:hover fieldset": {
-                borderColor: "#0056b3",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#0056b3",
-              },
-            },
-          }}
+          sx={inputStyles}
         >
           <MenuItem value="asc">Menor a Mayor</MenuItem>
           <MenuItem value="desc">Mayor a Menor</MenuItem>
