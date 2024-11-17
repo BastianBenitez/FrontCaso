@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import CardMenu from "../assets/components/CardMenu";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material"; // Corrige la importación de Typography
 import Filters from "../assets/components/Filters"; // Importa el nuevo componente
 import BackGround from "../assets/components/BackGround";
+import { useCart } from "../CartContext";
 
 interface Producto {
   _id: string;
@@ -10,11 +11,7 @@ interface Producto {
   descripcion: string;
   precio: number;
   imagen: string;
-  ingredientes: string[];
   disponible: boolean;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
 const Menu = () => {
@@ -22,6 +19,7 @@ const Menu = () => {
   const [filter, setFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState<string>("asc");
+  const { addToCart } = useCart(); // Estado del carrito
 
   useEffect(() => {
     fetch("http://localhost:3000/api/sushis")
@@ -50,6 +48,16 @@ const Menu = () => {
   const sortedItems = filteredItems.sort((a, b) => {
     return sortOrder === "asc" ? a.precio - b.precio : b.precio - a.precio;
   });
+
+  const handleAddToCart = (producto: Producto) => {
+    addToCart({
+      id: producto._id, // Asegúrate de usar un identificador único
+      name: producto.nombre,
+      price: producto.precio,
+      quantity: 1,
+      image: producto.imagen, // Si quieres agregar la imagen, también puedes hacerlo
+    });
+  };
 
   return (
     <Box
@@ -87,7 +95,11 @@ const Menu = () => {
         }}
       >
         {sortedItems.map((item) => (
-          <CardMenu key={item._id} producto={item} />
+          <CardMenu
+            key={item._id}
+            producto={item}
+            onAddToCart={handleAddToCart} // No es necesario un type assertion
+          />
         ))}
       </Box>
     </Box>

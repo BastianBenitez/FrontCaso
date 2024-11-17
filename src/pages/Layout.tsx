@@ -1,3 +1,4 @@
+// Layout.tsx
 import NavBar from "../assets/components/Nav/NavBar";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/material";

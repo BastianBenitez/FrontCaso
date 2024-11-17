@@ -19,9 +19,10 @@ interface Producto {
 
 interface CardMenuProps {
   producto: Producto;
+  onAddToCart: (producto: Producto) => void; // Agrega esta definición
 }
 
-const CardMenu: React.FC<CardMenuProps> = ({ producto }) => {
+const CardMenu: React.FC<CardMenuProps> = ({ producto, onAddToCart }) => {
   const { nombre, descripcion, precio, imagen, disponible } = producto;
 
   const cardStyles = {
@@ -101,8 +102,18 @@ const CardMenu: React.FC<CardMenuProps> = ({ producto }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "center" }}>
-        <Button size="medium" variant="contained" sx={buttonStyles}>
-          {disponible ? "Ordenar" : "No disponible"}
+        <Button
+          size="medium"
+          variant="contained"
+          sx={buttonStyles}
+          onClick={() => {
+            if (disponible) {
+              onAddToCart(producto);
+            }
+          }}
+          disabled={!disponible}
+        >
+          {disponible ? "Agregar al carrito" : "No disponible"}
         </Button>
       </CardActions>
     </Card>
