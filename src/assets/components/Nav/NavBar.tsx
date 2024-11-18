@@ -50,7 +50,7 @@ const NavBar: React.FC = () => {
   };
 
   const cartStyles = {
-    width: 450, // Usamos el mismo ancho que el de renderDrawer
+    width: 350, // Usamos el mismo ancho que el de renderDrawer
     backgroundColor: "rgba(0, 0, 0, 0.1)", // Usamos el mismo fondo que el de renderDrawer
     height: "100%",
     color: "white",
@@ -68,6 +68,7 @@ const NavBar: React.FC = () => {
         <CloseIcon />
       </IconButton>
       <List>
+        {/* Otros enlaces */}
         {links.map((link) => (
           <ListItemButton
             key={link.key}
@@ -111,9 +112,6 @@ const NavBar: React.FC = () => {
                 <Typography variant="body2" sx={{ marginRight: 2 }}>
                   Cantidad: {item.quantity}
                 </Typography>
-                <Typography variant="body2">
-                  ${item.price.toLocaleString()} CLP
-                </Typography>
                 <Typography variant="body2" sx={{ marginRight: 2 }}>
                   Subtotal: ${subtotal.toLocaleString()} CLP{" "}
                   {/* Muestra el subtotal */}
@@ -137,7 +135,7 @@ const NavBar: React.FC = () => {
           >
             <Typography variant="h6">Total:</Typography>
             <Typography variant="h6">
-              $
+              $$
               {cart
                 .reduce((sum, item) => sum + item.price * item.quantity, 0)
                 .toLocaleString()}{" "}
@@ -162,12 +160,12 @@ const NavBar: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <Box sx={{ maxWidth: "1400px", width: "100%", padding: "0 24px" }}>
+      <Box sx={{ width: "100wh", padding: "0 24px" }}>
         <Toolbar
           sx={{
             justifyContent: "space-between",
             alignItems: "center",
-            width: "100%",
+            width: "100%", // Asegura que el contenido ocupe todo el ancho disponible
           }}
         >
           <Typography variant="h5" sx={{ color: "white" }}>
@@ -176,37 +174,52 @@ const NavBar: React.FC = () => {
 
           <Box
             sx={{
-              display: { xs: "none", md: "flex" },
+              display: "flex",
               alignItems: "center",
-              ml: 4,
             }}
           >
-            <LinkBar links={links} />
-            {user && <Avatar sx={{ marginLeft: 2 }} />}
-            {/* Botón de carrito */}
-            <IconButton
-              sx={{ marginLeft: 2 }}
-              color="inherit"
-              onClick={toggleCart(true)}
-            >
-              <Badge badgeContent={cart.length} color="secondary">
-                <ShoppingCartIcon />
-              </Badge>
-            </IconButton>
-          </Box>
+            <Box sx={{ display: { xs: "none", md: "flex" }, ml: 4 }}>
+              <LinkBar links={links} />
+              {user && <Avatar sx={{ marginLeft: 2 }} />}
+              <IconButton
+                sx={{ marginLeft: 2 }}
+                color="inherit"
+                onClick={toggleCart(true)}
+              >
+                <Badge badgeContent={cart.length} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Box>
 
-          <IconButton
-            edge="end"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer(true)}
-            sx={{ display: { xs: "block", md: "none" } }}
-          >
-            <MenuIcon sx={{ fontSize: 40, marginRight: "1rem" }} />
-          </IconButton>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ display: { xs: "block", md: "none" } }}
+              >
+                <MenuIcon sx={{ fontSize: 40 }} />
+              </IconButton>
+              <IconButton
+                onClick={toggleCart(true)}
+                sx={{ color: "white", display: { xs: "block", md: "none" } }}
+              >
+                <ShoppingCartIcon sx={{ fontSize: 32 }} />
+              </IconButton>
+            </Box>
+          </Box>
         </Toolbar>
       </Box>
 
+      {/* Drawer para el menú */}
       <Drawer
         anchor="right"
         open={drawerOpen}
