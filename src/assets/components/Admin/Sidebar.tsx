@@ -6,7 +6,11 @@ import {
   ListItemText,
 } from "@mui/material";
 
-const Sidebar = () => {
+interface SidebarProps {
+  onSectionChange: (section: string) => void; // Tipado del prop
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onSectionChange }) => {
   return (
     <Box
       sx={{
@@ -22,6 +26,7 @@ const Sidebar = () => {
       <List>
         <ListItem disablePadding>
           <ListItemButton
+            onClick={() => onSectionChange("Dashboard")}
             sx={{
               "&:hover": {
                 color: "gray", // Cambiar a gris al pasar el mouse
@@ -33,6 +38,7 @@ const Sidebar = () => {
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton
+            onClick={() => onSectionChange("Usuarios")}
             sx={{
               "&:hover": {
                 color: "gray", // Cambiar a gris al pasar el mouse
@@ -44,6 +50,7 @@ const Sidebar = () => {
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton
+            onClick={() => onSectionChange("Configuraciones")}
             sx={{
               "&:hover": {
                 color: "gray", // Cambiar a gris al pasar el mouse
