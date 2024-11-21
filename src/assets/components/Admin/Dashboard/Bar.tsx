@@ -61,8 +61,8 @@ export default function SalesBarChart() {
         xAxis={[
           { scaleType: "band", data: salesData.map((data) => data.month) },
         ]} // Meses en el eje X
-        yAxis={[{ scaleType: "linear", min: 0, max: 600000 }]} // Configuración del eje Y
-        margin={{ left: 80 }} // Aumenta el margen izquierdo
+        yAxis={[{ scaleType: "linear" }]} // Configuración del eje Y
+        margin={{ left: 70 }} // Aumenta el margen izquierdo
         series={[
           {
             data: salesData.map((data) => data.totalSales),

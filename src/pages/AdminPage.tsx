@@ -1,44 +1,132 @@
-import { useState } from "react";
-import Sidebar from "../assets/components/Admin/Sidebar";
-import { Box } from "@mui/material";
-import Users from "../assets/components/Admin/Users";
-import Dashboard from "../assets/components/Admin/Dashboard/Dashboard";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { createTheme } from "@mui/material/styles";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import {
+  AppProvider,
+  type Router,
+  type Navigation,
+} from "@toolpad/core/AppProvider";
+import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 
-// Componentes para las diferentes secciones
+const NAVIGATION: Navigation = [
+  {
+    segment: "dashboard",
+    title: "Dashboard",
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: "orders",
+    title: "Orders",
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: "reports",
+    title: "Reports",
+    icon: <BarChartIcon />,
+  },
+];
 
-const Config = () => <Box>Configuraciones del sistema</Box>;
+const demoTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: "data-toolpad-color-scheme",
+  },
+  colorSchemes: { light: true, dark: true },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 
-const AdminPage = () => {
-  const [activeSection, setActiveSection] = useState("Dashboard"); // Estado de la sección activa
+// Component for Dashboard
+function DashboardContent() {
+  return (
+    <Box
+      sx={{
+        py: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography>Dashboard Content</Typography>
+    </Box>
+  );
+}
 
-  // Función para renderizar el contenido basado en la sección activa
-  const renderSection = () => {
-    switch (activeSection) {
-      case "Dashboard":
-        return <Dashboard />;
-      case "Usuarios":
-        return <Users />;
-      case "Configuraciones":
-        return <Config />;
+// Component for Orders
+function OrdersContent() {
+  return (
+    <Box
+      sx={{
+        py: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography>Orders Content</Typography>
+    </Box>
+  );
+}
+
+// Component for Reports
+function ReportsContent() {
+  return (
+    <Box
+      sx={{
+        py: 4,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography>Reports Content</Typography>
+    </Box>
+  );
+}
+
+export default function AdminPage() {
+  const [pathname, setPathname] = React.useState("/dashboard");
+
+  const router = React.useMemo<Router>(() => {
+    return {
+      pathname,
+      searchParams: new URLSearchParams(),
+      navigate: (path) => setPathname(String(path)),
+    };
+  }, [pathname]);
+
+  // Determine which component to render based on the current pathname
+  const renderContent = () => {
+    switch (pathname) {
+      case "/dashboard":
+        return <DashboardContent />;
+      case "/orders":
+        return <OrdersContent />;
+      case "/reports":
+        return <ReportsContent />;
       default:
-        return <Dashboard />;
+        return <DashboardContent />;
     }
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Sidebar onSectionChange={setActiveSection} />
-      <Box
-        sx={{
-          flexGrow: 1,
-          padding: "0px 16px 16px 16px",
-          minHeight: "100vh",
-        }}
-      >
-        {renderSection()}
-      </Box>
-    </Box>
+    <AppProvider navigation={NAVIGATION} router={router} theme={demoTheme}>
+      <DashboardLayout defaultSidebarCollapsed>
+        {renderContent()}
+      </DashboardLayout>
+    </AppProvider>
   );
-};
-
-export default AdminPage;
+}
