@@ -2,9 +2,9 @@ import { useState } from "react";
 import Sidebar from "../assets/components/Admin/Sidebar";
 import { Box } from "@mui/material";
 import Users from "../assets/components/Admin/Users";
+import Dashboard from "../assets/components/Admin/Dashboard/Dashboard";
 
 // Componentes para las diferentes secciones
-const Dashboard = () => <Box>Este es el Dashboard</Box>;
 
 const Config = () => <Box>Configuraciones del sistema</Box>;
 
@@ -31,7 +31,7 @@ const AdminPage = () => {
       <Box
         sx={{
           flexGrow: 1,
-          padding: "16px", // Fondo del área principal
+          padding: "0px 16px 16px 16px",
           minHeight: "100vh",
         }}
       >
