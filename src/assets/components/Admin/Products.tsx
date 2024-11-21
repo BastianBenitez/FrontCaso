@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const darkTheme = createTheme({
   palette: {
@@ -13,23 +14,23 @@ const darkTheme = createTheme({
 
 // Función vacía para manejar la eliminación (se desarrollará después)
 const handleEdit = (row: any) => {
-  console.log("Editar usuario:", row);
+  console.log("Editar sushi:", row);
   // Lógica de edición por desarrollar
 };
 
 // Función vacía para manejar la eliminación (se desarrollará después)
 const handleDelete = (id: string) => {
-  console.log("Eliminar usuario con ID:", id);
+  console.log("Eliminar sushi con ID:", id);
   // Lógica de eliminación por desarrollar
 };
 
 const columns: GridColDef[] = [
   { field: "nombre", headerName: "Nombre", flex: 1 },
-  { field: "apellido", headerName: "Apellido", flex: 1 },
-  { field: "email", headerName: "Correo Electrónico", flex: 1 },
+  { field: "descripcion", headerName: "Descripción", flex: 2 },
+  { field: "precio", headerName: "Precio", flex: 1 },
   {
-    field: "isAdmin",
-    headerName: "Administrador",
+    field: "disponible",
+    headerName: "Disponible",
     width: 150,
     type: "boolean",
   },
@@ -61,25 +62,25 @@ const columns: GridColDef[] = [
   },
 ];
 
-export default function Users() {
+export default function Products() {
   const [rows, setRows] = React.useState<any[]>([]);
 
   // Llamada a la API para obtener los datos
   React.useEffect(() => {
     axios
-      .get("http://localhost:3000/api/users")
+      .get("http://localhost:3000/api/sushis")
       .then((response) => {
-        const data = response.data.map((user: any, index: number) => ({
-          id: user._id,
-          nombre: user.nombre,
-          apellido: user.apellido,
-          email: user.email,
-          isAdmin: user.isAdmin,
+        const data = response.data.map((sushi: any, index: number) => ({
+          id: sushi._id,
+          nombre: sushi.nombre,
+          descripcion: sushi.descripcion,
+          precio: sushi.precio,
+          disponible: sushi.disponible,
         }));
         setRows(data);
       })
       .catch((error) => {
-        console.error("Error al obtener los usuarios:", error);
+        console.error("Error al obtener los sushis:", error);
       });
   }, []);
 

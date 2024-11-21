@@ -11,28 +11,23 @@ const darkTheme = createTheme({
   },
 });
 
-// Función vacía para manejar la eliminación (se desarrollará después)
-const handleEdit = (row: any) => {
-  console.log("Editar usuario:", row);
-  // Lógica de edición por desarrollar
+// Función vacía para manejar la cancelación del pedido
+const handleCancel = (id: string) => {
+  console.log("Cancelar pedido con ID:", id);
+  // Lógica de cancelación por desarrollar
 };
 
-// Función vacía para manejar la eliminación (se desarrollará después)
-const handleDelete = (id: string) => {
-  console.log("Eliminar usuario con ID:", id);
-  // Lógica de eliminación por desarrollar
+// Función vacía para manejar el mostrar más detalles
+const handleShowDetails = (row: any) => {
+  console.log("Mostrar más detalles del pedido:", row);
+  // Lógica para mostrar más detalles por desarrollar
 };
 
 const columns: GridColDef[] = [
-  { field: "nombre", headerName: "Nombre", flex: 1 },
-  { field: "apellido", headerName: "Apellido", flex: 1 },
-  { field: "email", headerName: "Correo Electrónico", flex: 1 },
-  {
-    field: "isAdmin",
-    headerName: "Administrador",
-    width: 150,
-    type: "boolean",
-  },
+  { field: "cliente", headerName: "Cliente", flex: 1 },
+  { field: "estado", headerName: "Estado", flex: 1 },
+  { field: "fecha", headerName: "Fecha", flex: 2 },
+  { field: "total", headerName: "Total", flex: 1 },
   {
     field: "actions",
     headerName: "Acciones",
@@ -41,45 +36,45 @@ const columns: GridColDef[] = [
     getActions: (params) => [
       <GridActionsCellItem
         icon={
-          <Button variant="contained" color="primary">
-            Editar
+          <Button variant="contained" color="error">
+            Cancelar
           </Button>
         }
-        label="Editar"
-        onClick={() => handleEdit(params.row)}
+        label="Cancelar"
+        onClick={() => handleCancel(params.row.id)}
       />,
       <GridActionsCellItem
         icon={
-          <Button variant="contained" color="error">
-            Eliminar
+          <Button variant="contained" color="primary">
+            detalles
           </Button>
         }
-        label="Eliminar"
-        onClick={() => handleDelete(params.row.id)}
+        label="Mostrar más detalles"
+        onClick={() => handleShowDetails(params.row)}
       />,
     ],
   },
 ];
 
-export default function Users() {
+export default function Buys() {
   const [rows, setRows] = React.useState<any[]>([]);
 
   // Llamada a la API para obtener los datos
   React.useEffect(() => {
     axios
-      .get("http://localhost:3000/api/users")
+      .get("http://localhost:3000/api/pedido")
       .then((response) => {
-        const data = response.data.map((user: any, index: number) => ({
-          id: user._id,
-          nombre: user.nombre,
-          apellido: user.apellido,
-          email: user.email,
-          isAdmin: user.isAdmin,
+        const data = response.data.map((pedido: any, index: number) => ({
+          id: pedido._id,
+          cliente: pedido.cliente,
+          estado: pedido.estado,
+          fecha: new Date(pedido.fecha).toLocaleString(), // Formateamos la fecha
+          total: pedido.total,
         }));
         setRows(data);
       })
       .catch((error) => {
-        console.error("Error al obtener los usuarios:", error);
+        console.error("Error al obtener los pedidos:", error);
       });
   }, []);
 

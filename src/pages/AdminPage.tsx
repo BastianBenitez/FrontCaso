@@ -1,8 +1,5 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import {
@@ -11,21 +8,24 @@ import {
   type Navigation,
 } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
+import Users from "../assets/components/Admin/Users";
+import Products from "../assets/components/Admin/Products";
+import Buys from "../assets/components/Admin/Buys";
 
 const NAVIGATION: Navigation = [
   {
-    segment: "dashboard",
-    title: "Dashboard",
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: "orders",
-    title: "Orders",
+    segment: "users",
+    title: "Usuarios",
     icon: <ShoppingCartIcon />,
   },
   {
-    segment: "reports",
-    title: "Reports",
+    segment: "products",
+    title: "Productos",
+    icon: <BarChartIcon />,
+  },
+  {
+    segment: "buys",
+    title: "Compras",
     icon: <BarChartIcon />,
   },
 ];
@@ -46,57 +46,6 @@ const demoTheme = createTheme({
   },
 });
 
-// Component for Dashboard
-function DashboardContent() {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Typography>Dashboard Content</Typography>
-    </Box>
-  );
-}
-
-// Component for Orders
-function OrdersContent() {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Typography>Orders Content</Typography>
-    </Box>
-  );
-}
-
-// Component for Reports
-function ReportsContent() {
-  return (
-    <Box
-      sx={{
-        py: 4,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Typography>Reports Content</Typography>
-    </Box>
-  );
-}
-
 export default function AdminPage() {
   const [pathname, setPathname] = React.useState("/dashboard");
 
@@ -111,14 +60,14 @@ export default function AdminPage() {
   // Determine which component to render based on the current pathname
   const renderContent = () => {
     switch (pathname) {
-      case "/dashboard":
-        return <DashboardContent />;
-      case "/orders":
-        return <OrdersContent />;
-      case "/reports":
-        return <ReportsContent />;
+      case "/users":
+        return <Users />;
+      case "/products":
+        return <Products />;
+      case "/buys":
+        return <Buys />;
       default:
-        return <DashboardContent />;
+        return <Users />;
     }
   };
 
