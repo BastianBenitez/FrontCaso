@@ -15,12 +15,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onSectionChange }) => {
     <Box
       sx={{
         width: "240px",
-        bgcolor: "transparent", // Fondo transparente
+        bgcolor: "#1a1a1a", // Fondo oscuro similar al del DataGrid
         color: "white", // Texto blanco
-        height: "100vh",
-        border: "2px solid white", // Borde blanco
+        height: "80vh", // Asegura que ocupe todo el alto de la ventana
+        maxHeight: "100vh", // No puede exceder el alto de la ventana
         borderRadius: "8px", // Bordes redondeados
         padding: "16px", // Espaciado interno
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Sombra sutil
+        border: "2px solid #333", // Borde más oscuro
+        overflowY: "auto", // Permite scroll si el contenido excede el alto
       }}
     >
       <List>
@@ -29,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSectionChange }) => {
             onClick={() => onSectionChange("Dashboard")}
             sx={{
               "&:hover": {
-                color: "gray", // Cambiar a gris al pasar el mouse
+                backgroundColor: "#333", // Fondo oscuro al pasar el mouse
               },
             }}
           >
@@ -41,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSectionChange }) => {
             onClick={() => onSectionChange("Usuarios")}
             sx={{
               "&:hover": {
-                color: "gray", // Cambiar a gris al pasar el mouse
+                backgroundColor: "#333", // Fondo oscuro al pasar el mouse
               },
             }}
           >
@@ -53,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSectionChange }) => {
             onClick={() => onSectionChange("Configuraciones")}
             sx={{
               "&:hover": {
-                color: "gray", // Cambiar a gris al pasar el mouse
+                backgroundColor: "#333", // Fondo oscuro al pasar el mouse
               },
             }}
           >

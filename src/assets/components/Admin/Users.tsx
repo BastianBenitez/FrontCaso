@@ -61,7 +61,7 @@ const columns: GridColDef[] = [
   },
 ];
 
-export default function DataGridDemo() {
+export default function Users() {
   const [rows, setRows] = React.useState<any[]>([]);
 
   // Llamada a la API para obtener los datos
@@ -91,7 +91,7 @@ export default function DataGridDemo() {
         flexDirection="column"
         alignItems="center"
         justifyContent="flex-start" // Alineación más hacia arriba
-        height="100vh"
+        height="100%"
         bgcolor="#050607"
         p={2}
       >
