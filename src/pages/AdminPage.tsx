@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Sidebar from "../assets/components/Admin/Sidebar";
 import { Box } from "@mui/material";
+import Users from "../assets/components/Admin/Users";
 
 // Componentes para las diferentes secciones
 const Dashboard = () => <Box>Este es el Dashboard</Box>;
-const Users = () => <Box>Gestión de Usuarios</Box>;
+
 const Config = () => <Box>Configuraciones del sistema</Box>;
 
 const AdminPage = () => {
