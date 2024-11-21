@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import CardMenu from "../assets/components/CardMenu";
-import { Box, Typography } from "@mui/material"; // Corrige la importación de Typography
-import Filters from "../assets/components/Filters"; // Importa el nuevo componente
+import CardMenu from "../assets/components/Menu/CardMenu";
+import { Box } from "@mui/material"; // Corrige la importación de Typography
+import Filters from "../assets/components/Menu/Filters"; // Importa el nuevo componente
 import BackGround from "../assets/components/BackGround";
 import { useCart } from "../CartContext";
 
