@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { Button } from "@mui/material";
+import { Button, Modal, Typography } from "@mui/material";
 
 const darkTheme = createTheme({
   palette: {
@@ -11,65 +11,86 @@ const darkTheme = createTheme({
   },
 });
 
-// Función vacía para manejar la cancelación del pedido
-const handleCancel = (id: string) => {
-  console.log("Cancelar pedido con ID:", id);
-  // Lógica de cancelación por desarrollar
-};
+// Componente para mostrar los detalles del pedido en un modal
+const PedidoDetallesModal = ({ open, onClose, pedido }: any) => {
+  if (!pedido) return null;
 
-// Función vacía para manejar el mostrar más detalles
-const handleShowDetails = (row: any) => {
-  console.log("Mostrar más detalles del pedido:", row);
-  // Lógica para mostrar más detalles por desarrollar
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "background.paper",
+          p: 4,
+          boxShadow: 24,
+          borderRadius: 2,
+          width: "90%",
+          maxWidth: 600,
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Detalles del Pedido
+        </Typography>
+        <Typography variant="body1">
+          <strong>Cliente:</strong> {pedido.cliente}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Estado:</strong> {pedido.estado}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Fecha:</strong> {pedido.fecha}
+        </Typography>
+        <Typography variant="body1">
+          <strong>Total:</strong> ${pedido.total}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          <strong>Sushis:</strong>
+        </Typography>
+        <Box
+          component="ul"
+          sx={{ pl: 4, listStyle: "disc", color: "text.primary" }}
+        >
+          {pedido.sushis.map((item: any, index: number) => (
+            <li key={index}>
+              <Typography variant="body2">
+                Sushi ID: {item.sushi}, Cantidad: {item.cantidad}
+              </Typography>
+            </li>
+          ))}
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onClose}
+          sx={{ mt: 2 }}
+        >
+          Cerrar
+        </Button>
+      </Box>
+    </Modal>
+  );
 };
-
-const columns: GridColDef[] = [
-  { field: "cliente", headerName: "Cliente", flex: 1 },
-  { field: "estado", headerName: "Estado", flex: 1 },
-  { field: "fecha", headerName: "Fecha", flex: 2 },
-  { field: "total", headerName: "Total", flex: 1 },
-  {
-    field: "actions",
-    headerName: "Acciones",
-    type: "actions",
-    width: 250,
-    getActions: (params) => [
-      <GridActionsCellItem
-        icon={
-          <Button variant="contained" color="error" size="small">
-            Cancelar
-          </Button>
-        }
-        label="Cancelar"
-        onClick={() => handleCancel(params.row.id)}
-      />,
-      <GridActionsCellItem
-        icon={
-          <Button variant="contained" color="primary" size="small">
-            detalles
-          </Button>
-        }
-        label="Mostrar más detalles"
-        onClick={() => handleShowDetails(params.row)}
-      />,
-    ],
-  },
-];
 
 export default function Buys() {
   const [rows, setRows] = React.useState<any[]>([]);
+  const [selectedPedido, setSelectedPedido] = React.useState<any>(null);
+  const [openModal, setOpenModal] = React.useState(false);
 
   // Llamada a la API para obtener los datos
   React.useEffect(() => {
     axios
       .get("http://localhost:3000/api/pedido")
       .then((response) => {
-        const data = response.data.map((pedido: any, index: number) => ({
+        const data = response.data.map((pedido: any) => ({
           id: pedido._id,
           cliente: pedido.cliente,
           estado: pedido.estado,
           fecha: new Date(pedido.fecha).toLocaleString(), // Formateamos la fecha
           total: pedido.total,
+          sushis: pedido.sushis,
         }));
         setRows(data);
       })
@@ -77,6 +98,50 @@ export default function Buys() {
         console.error("Error al obtener los pedidos:", error);
       });
   }, []);
+
+  // Función para abrir el modal con los detalles del pedido
+  const handleShowDetails = (pedido: any) => {
+    setSelectedPedido(pedido);
+    setOpenModal(true);
+  };
+
+  // Función para manejar la cancelación del pedido
+  const handleCancel = (id: string) => {
+    console.log("Cancelar pedido con ID:", id);
+  };
+
+  const columns: GridColDef[] = [
+    { field: "cliente", headerName: "Cliente", flex: 1 },
+    { field: "estado", headerName: "Estado", flex: 1 },
+    { field: "fecha", headerName: "Fecha", flex: 2 },
+    { field: "total", headerName: "Total", flex: 1 },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      type: "actions",
+      width: 350,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={
+            <Button variant="contained" color="error" size="small">
+              Cancelar
+            </Button>
+          }
+          label="Cancelar"
+          onClick={() => handleCancel(params.row.id)}
+        />,
+        <GridActionsCellItem
+          icon={
+            <Button variant="contained" color="primary" size="small">
+              Detalles
+            </Button>
+          }
+          label="Mostrar más detalles"
+          onClick={() => handleShowDetails(params.row)}
+        />,
+      ],
+    },
+  ];
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -92,16 +157,12 @@ export default function Buys() {
           sx={{
             height: "80vh",
             width: "100%",
-            maxWidth: 1000, // Ancho máximo en pantallas grandes
+            maxWidth: 1000,
             bgcolor: "#1a1a1a",
             borderRadius: 2,
             boxShadow: 3,
             padding: 2,
             marginTop: 0,
-            "@media (max-width: 600px)": {
-              // En pantallas pequeñas, ajustamos el tamaño de la tabla
-              height: 300, // Reducimos la altura
-            },
           }}
         >
           <DataGrid
@@ -114,7 +175,7 @@ export default function Buys() {
                 },
               },
             }}
-            pageSizeOptions={[5, 10, 25]} // Opciones de tamaño de página
+            pageSizeOptions={[5, 10, 25]}
             checkboxSelection
             disableRowSelectionOnClick
             rowHeight={60}
@@ -135,15 +196,14 @@ export default function Buys() {
               "& .MuiDataGrid-footerContainer": {
                 backgroundColor: "#333",
               },
-              "@media (max-width: 600px)": {
-                // Ajustamos la paginación para pantallas pequeñas
-                "& .MuiPaginationItem-root": {
-                  fontSize: "0.8rem", // Reducimos el tamaño de la paginación
-                },
-              },
             }}
           />
         </Box>
+        <PedidoDetallesModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          pedido={selectedPedido}
+        />
       </Box>
     </ThemeProvider>
   );
