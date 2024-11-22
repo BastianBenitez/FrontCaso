@@ -7,69 +7,63 @@ import { Button, Modal, TextField, Typography, Grid } from "@mui/material";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark", // Modo oscuro
+    mode: "dark",
   },
 });
 
 export default function Products() {
   const [rows, setRows] = React.useState<any[]>([]);
-  const [open, setOpen] = React.useState(false);
-  const [newProduct, setNewProduct] = React.useState({
-    nombre: "",
-    descripcion: "",
-    precio: 0,
-    url: "",
-    disponible: true,
-  });
+  const [editProduct, setEditProduct] = React.useState<any | null>(null);
+  const [openEditModal, setOpenEditModal] = React.useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewProduct({
-      ...newProduct,
-      [e.target.name]: e.target.value,
-    });
+  const handleEditOpen = (row: any) => {
+    setEditProduct({ ...row }); // Carga los datos del producto seleccionado
+    setOpenEditModal(true); // Abre el modal
   };
 
-  const handleAddProduct = () => {
-    // Aseguramos el formato correcto del objeto a enviar
-    const productToSend = {
-      ...newProduct,
-      precio: Number(newProduct.precio), // Convertimos precio a número
+  const handleEditClose = () => {
+    setEditProduct(null); // Resetea el producto editado
+    setOpenEditModal(false); // Cierra el modal
+  };
+
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editProduct) {
+      setEditProduct({
+        ...editProduct,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleSaveEdit = () => {
+    if (!editProduct) return;
+
+    const updatedProduct = {
+      ...editProduct,
+      precio: Number(editProduct.precio), // Convertimos precio a número
     };
 
     axios
-      .post("http://localhost:3000/api/sushis", JSON.stringify(productToSend), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        setRows((prevRows) => [
-          ...prevRows,
-          {
-            id: response.data._id,
-            ...productToSend,
+      .put(
+        `http://localhost:3000/api/sushis/${editProduct.id}`,
+        JSON.stringify(updatedProduct),
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-        ]);
-        setNewProduct({
-          nombre: "",
-          descripcion: "",
-          precio: 0,
-          url: "",
-          disponible: true,
-        });
-        handleClose();
+        }
+      )
+      .then(() => {
+        setRows((prevRows) =>
+          prevRows.map((row) =>
+            row.id === editProduct.id ? updatedProduct : row
+          )
+        );
+        handleEditClose();
       })
       .catch((error) => {
-        console.error("Error al agregar el producto:", error);
+        console.error("Error al actualizar el producto:", error);
       });
-  };
-
-  const handleEdit = (row: any) => {
-    console.log("Editar sushi:", row);
-    // Lógica de edición por desarrollar
   };
 
   const handleDelete = (id: string) => {
@@ -87,12 +81,7 @@ export default function Products() {
     { field: "nombre", headerName: "Nombre", flex: 1 },
     { field: "descripcion", headerName: "Descripción", flex: 2 },
     { field: "precio", headerName: "Precio", flex: 1 },
-    {
-      field: "disponible",
-      headerName: "Disponible",
-      width: 150,
-      type: "boolean",
-    },
+    { field: "url", headerName: "URL", flex: 1 }, // Muestra la URL si es necesario
     {
       field: "actions",
       headerName: "Acciones",
@@ -106,7 +95,7 @@ export default function Products() {
             </Button>
           }
           label="Editar"
-          onClick={() => handleEdit(params.row)}
+          onClick={() => handleEditOpen(params.row)}
         />,
         <GridActionsCellItem
           icon={
@@ -126,10 +115,11 @@ export default function Products() {
       .get("http://localhost:3000/api/sushis")
       .then((response) => {
         const data = response.data.map((sushi: any) => ({
-          id: sushi._id,
+          id: sushi._id, // Asegúrate de que el backend devuelve _id
           nombre: sushi.nombre,
           descripcion: sushi.descripcion,
           precio: sushi.precio,
+          url: sushi.url, // Incluye la URL en los datos
           disponible: sushi.disponible,
         }));
         setRows(data);
@@ -149,18 +139,6 @@ export default function Products() {
         height="100%"
         p={2}
       >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: 1000,
-            mb: 2,
-            textAlign: "right",
-          }}
-        >
-          <Button variant="contained" color="primary" onClick={handleOpen}>
-            Agregar Producto
-          </Button>
-        </Box>
         <Box
           sx={{
             height: "80vh",
@@ -198,78 +176,84 @@ export default function Products() {
           />
         </Box>
 
-        {/* Modal */}
-        <Modal open={open} onClose={handleClose}>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 400,
-              bgcolor: "background.paper",
-              borderRadius: 2,
-              boxShadow: 24,
-              p: 4,
-            }}
-          >
-            <Typography variant="h6" component="h2" mb={2}>
-              Agregar Nuevo Producto
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  label="Nombre"
-                  name="nombre"
-                  value={newProduct.nombre}
-                  onChange={handleChange}
-                  fullWidth
-                />
+        {/* Modal para editar */}
+        {editProduct && (
+          <Modal open={openEditModal} onClose={handleEditClose}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: "background.paper",
+                borderRadius: 2,
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography variant="h6" component="h2" mb={2}>
+                Editar Producto
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Nombre"
+                    name="nombre"
+                    value={editProduct.nombre || ""}
+                    onChange={handleEditChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Descripción"
+                    name="descripcion"
+                    value={editProduct.descripcion || ""}
+                    onChange={handleEditChange}
+                    multiline
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="URL"
+                    name="url"
+                    value={editProduct.url || ""}
+                    onChange={handleEditChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Precio"
+                    name="precio"
+                    value={editProduct.precio || ""}
+                    onChange={handleEditChange}
+                    type="number"
+                    fullWidth
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Descripción"
-                  name="descripcion"
-                  value={newProduct.descripcion}
-                  onChange={handleChange}
-                  multiline
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="URL"
-                  name="url"
-                  value={newProduct.url}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="Precio"
-                  name="precio"
-                  value={newProduct.precio}
-                  onChange={handleChange}
-                  type="number"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-            <Box mt={3} textAlign="right">
-              <Button onClick={handleClose} color="secondary" sx={{ mr: 1 }}>
-                Cancelar
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddProduct}
-              >
-                Guardar
-              </Button>
+              <Box mt={3} textAlign="right">
+                <Button
+                  onClick={handleEditClose}
+                  color="secondary"
+                  sx={{ mr: 1 }}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveEdit}
+                >
+                  Guardar Cambios
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        </Modal>
+          </Modal>
+        )}
       </Box>
     </ThemeProvider>
   );
