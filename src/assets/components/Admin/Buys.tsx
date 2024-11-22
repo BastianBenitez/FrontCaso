@@ -36,7 +36,7 @@ const columns: GridColDef[] = [
     getActions: (params) => [
       <GridActionsCellItem
         icon={
-          <Button variant="contained" color="error">
+          <Button variant="contained" color="error" size="small">
             Cancelar
           </Button>
         }
@@ -45,7 +45,7 @@ const columns: GridColDef[] = [
       />,
       <GridActionsCellItem
         icon={
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" size="small">
             detalles
           </Button>
         }
