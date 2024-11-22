@@ -13,7 +13,7 @@ interface Producto {
   nombre: string;
   descripcion: string;
   precio: number;
-  imagen: string;
+  url: string;
   disponible: boolean;
 }
 
@@ -23,7 +23,7 @@ interface CardMenuProps {
 }
 
 const CardMenu: React.FC<CardMenuProps> = ({ producto, onAddToCart }) => {
-  const { nombre, descripcion, precio, imagen, disponible } = producto;
+  const { nombre, descripcion, precio, url, disponible } = producto;
 
   const cardStyles = {
     maxWidth: 345,
@@ -80,7 +80,7 @@ const CardMenu: React.FC<CardMenuProps> = ({ producto, onAddToCart }) => {
         component="img"
         alt={nombre}
         height="180"
-        image={imagen}
+        image={url}
         sx={imageStyles}
       />
       <CardContent sx={contentStyles}>
