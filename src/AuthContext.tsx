@@ -59,7 +59,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const logout = () => {
-    console.log("Cerrando sesión...");
     Cookies.remove("token"); // Eliminar el token de las cookies
     setUser(null);
   };
