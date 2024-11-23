@@ -9,7 +9,6 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Avatar,
   Badge,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -18,11 +17,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import NavButton from "./NavButton";
 import LinkBar from "./LinkBar";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useAuth } from "../../../AuthContext";
+import AccountSignedIn from "./AccountSignedIn";
 import { useCart } from "../../../CartContext"; // Importa tu contexto del carrito
 
 const NavBar: React.FC = () => {
-  const { user, logout } = useAuth();
   const { cart } = useCart(); // Accede al carrito desde el contexto
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false); // Estado para el carrito
@@ -34,12 +32,6 @@ const NavBar: React.FC = () => {
   const links = [
     { to: "/", label: "Inicio", key: "inicio" },
     { to: "/menu", label: "Menú", key: "menu" },
-    ...(user
-      ? [
-          { to: "/profile", label: "Perfil", key: "perfil" },
-          { label: "Cerrar Sesión", action: logout, key: "cerrar-sesion" },
-        ]
-      : [{ to: "/login", label: "Iniciar Sesión", key: "iniciar-sesion" }]),
   ];
 
   const drawerStyles = {
@@ -70,12 +62,7 @@ const NavBar: React.FC = () => {
       <List>
         {/* Otros enlaces */}
         {links.map((link) => (
-          <ListItemButton
-            key={link.key}
-            component={link.action ? "span" : NavButton}
-            to={link.action ? undefined : link.to}
-            onClick={() => link.action && link.action()}
-          >
+          <ListItemButton key={link.key} component={NavButton} to={link.to}>
             <ListItemText primary={link.label} sx={{ color: "white" }} />
           </ListItemButton>
         ))}
@@ -233,7 +220,7 @@ const NavBar: React.FC = () => {
           >
             <Box sx={{ display: { xs: "none", md: "flex" }, ml: 4 }}>
               <LinkBar links={links} />
-              {user && <Avatar sx={{ marginLeft: 2 }} />}
+              <AccountSignedIn />
               <IconButton
                 sx={{ marginLeft: 2 }}
                 color="inherit"

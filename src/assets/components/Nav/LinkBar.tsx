@@ -8,7 +8,7 @@ interface LinkBarProps {
 
 const LinkBar: React.FC<LinkBarProps> = ({ links }) => {
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center", marginRight: "1rem" }}>
       {links.map((link) => (
         <Link
           key={link.label} // Usar label como clave única, asumiendo que es único
