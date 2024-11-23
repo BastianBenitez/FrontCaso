@@ -17,6 +17,7 @@ interface User {
   direccion: string;
   fechaRegistro: Date;
   isAdmin: boolean;
+  isOwner: boolean;
   _id: string;
 }
 

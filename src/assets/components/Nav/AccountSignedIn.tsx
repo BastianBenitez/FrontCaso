@@ -37,7 +37,7 @@ const AccountSignedIn: React.FC = () => {
                 Perfil
               </Link>
             </MenuItem>
-            {user.isAdmin && (
+            {(user.isAdmin || user.isOwner) && (
               <MenuItem onClick={handleMenuClose}>
                 <Link
                   to="/admin"

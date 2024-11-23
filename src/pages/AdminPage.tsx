@@ -2,6 +2,7 @@ import * as React from "react";
 import { createTheme } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import ReportIcon from "@mui/icons-material/Report"; // Icono para el reporte
 import {
   AppProvider,
   type Router,
@@ -11,24 +12,8 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import Users from "../assets/components/Admin/Users";
 import Products from "../assets/components/Admin/Products";
 import Buys from "../assets/components/Admin/Buys";
-
-const NAVIGATION: Navigation = [
-  {
-    segment: "users",
-    title: "Usuarios",
-    icon: <ShoppingCartIcon />,
-  },
-  {
-    segment: "products",
-    title: "Productos",
-    icon: <BarChartIcon />,
-  },
-  {
-    segment: "buys",
-    title: "Compras",
-    icon: <BarChartIcon />,
-  },
-];
+import Report from "../assets/components/Admin/Report"; // Componente de Reporte
+import { useAuth } from "../AuthContext";
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -48,6 +33,37 @@ const demoTheme = createTheme({
 
 export default function AdminPage() {
   const [pathname, setPathname] = React.useState("/dashboard");
+  const { user } = useAuth(); // Accedemos al contexto para obtener la información del usuario
+
+  // Filtrar las opciones de navegación para que solo los administradores y el dueño puedan verlas
+  const NAVIGATION: Navigation = [
+    {
+      segment: "users",
+      title: "Usuarios",
+      icon: <ShoppingCartIcon />,
+    },
+    {
+      segment: "products",
+      title: "Productos",
+      icon: <BarChartIcon />,
+    },
+    {
+      segment: "buys",
+      title: "Compras",
+      icon: <BarChartIcon />,
+    },
+    {
+      segment: "report",
+      title: "Reporte",
+      icon: <ReportIcon />, // Icono para la sección de reporte
+    },
+  ].filter((item) => {
+    // Mostrar solo las opciones que corresponden según el tipo de usuario
+    if (item.segment === "report") {
+      return user?.isOwner; // Solo mostrar el reporte si el usuario es el dueño
+    }
+    return user?.isAdmin || item.segment !== "users"; // Mostrar opciones para administradores
+  });
 
   const router = React.useMemo<Router>(() => {
     return {
@@ -57,7 +73,7 @@ export default function AdminPage() {
     };
   }, [pathname]);
 
-  // Determine which component to render based on the current pathname
+  // Determinar qué componente mostrar según la ruta actual
   const renderContent = () => {
     switch (pathname) {
       case "/users":
@@ -66,6 +82,8 @@ export default function AdminPage() {
         return <Products />;
       case "/buys":
         return <Buys />;
+      case "/report":
+        return <Report />; // Componente de Reporte
       default:
         return <Users />;
     }
