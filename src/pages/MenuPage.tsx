@@ -10,11 +10,11 @@ interface Producto {
   nombre: string;
   descripcion: string;
   precio: number;
-  imagen: string;
+  url: string;
   disponible: boolean;
 }
 
-const Menu = () => {
+const MenuPage = () => {
   const [sushiItems, setSushiItems] = useState<Producto[]>([]);
   const [filter, setFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,7 +55,7 @@ const Menu = () => {
       name: producto.nombre,
       price: producto.precio,
       quantity: 1,
-      image: producto.imagen, // Si quieres agregar la imagen, también puedes hacerlo
+      image: producto.url, // Si quieres agregar la imagen, también puedes hacerlo
     });
   };
 
@@ -106,4 +106,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default MenuPage;
