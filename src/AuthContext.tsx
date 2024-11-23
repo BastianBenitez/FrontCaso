@@ -45,7 +45,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     if (token && isTokenValid(token)) {
       try {
         const userData: User = jwtDecode(token);
-        console.log("Token decodificado:", userData);
         setUser(userData);
       } catch (error) {
         console.error("Error al decodificar el token:", error);
