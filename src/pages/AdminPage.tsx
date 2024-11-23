@@ -100,9 +100,11 @@ export default function AdminPage() {
         if (user?.isAdmin) {
           // Si es admin, mostrar todas las opciones
           return <Users />;
-        } else {
-          return <Typography>Sin acceso</Typography>;
         }
+        if (!user?.isAdmin && user?.isOwner) {
+          return <Report />;
+        }
+        return <Typography>Sin acceso</Typography>;
     }
   };
 
