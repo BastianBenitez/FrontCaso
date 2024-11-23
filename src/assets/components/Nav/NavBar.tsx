@@ -59,6 +59,11 @@ const NavBar: React.FC = () => {
       >
         <CloseIcon />
       </IconButton>
+      <Box
+        sx={{ display: "flex", justifyContent: "right", marginRight: "1rem" }}
+      >
+        <AccountSignedIn />
+      </Box>
       <List>
         {/* Otros enlaces */}
         {links.map((link) => (
