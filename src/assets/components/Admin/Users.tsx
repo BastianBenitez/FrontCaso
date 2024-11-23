@@ -59,28 +59,6 @@ export default function Users() {
     setSelectedUser(null);
   };
 
-  const handleSave = () => {
-    if (selectedUser) {
-      axios
-        .put(`http://localhost:3000/api/users/${selectedUser.id}`, {
-          isAdmin: selectedUser.isAdmin,
-        })
-        .then(() => {
-          setRows((prevRows) =>
-            prevRows.map((row) =>
-              row.id === selectedUser.id
-                ? { ...row, isAdmin: selectedUser.isAdmin }
-                : row
-            )
-          );
-          handleClose();
-        })
-        .catch((error) => {
-          console.error("Error al actualizar el usuario:", error);
-        });
-    }
-  };
-
   const handleDelete = (id: string) => {
     axios
       .delete(`http://localhost:3000/api/users/${id}`)
@@ -89,6 +67,22 @@ export default function Users() {
       })
       .catch((error) => {
         console.error("Error al eliminar el usuario:", error);
+      });
+  };
+  const handleSwitchRole = (id: string, isAdmin: boolean) => {
+    axios
+      .put(`http://localhost:3000/api/users/switch-role-admin/${id}`, {
+        isAdmin,
+      })
+      .then(() => {
+        // Actualizar la lista de usuarios después de la actualización
+        setRows((prevRows) =>
+          prevRows.map((row) => (row.id === id ? { ...row, isAdmin } : row))
+        );
+        handleClose(); // Cerrar el modal después de actualizar el rol
+      })
+      .catch((error) => {
+        console.error("Error al cambiar el rol del usuario:", error);
       });
   };
 
@@ -192,23 +186,33 @@ export default function Users() {
               Editar Usuario
             </Typography>
             {selectedUser && (
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={selectedUser.isAdmin}
-                    onChange={(e) =>
-                      setSelectedUser({
-                        ...selectedUser,
-                        isAdmin: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label="¿Es administrador?"
-              />
+              <>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={selectedUser.isAdmin}
+                      onChange={(e) => {
+                        // Actualizamos el estado del usuario con el nuevo valor de isAdmin
+                        const updatedUser = {
+                          ...selectedUser,
+                          isAdmin: e.target.checked,
+                        };
+                        setSelectedUser(updatedUser);
+                      }}
+                    />
+                  }
+                  label="¿Es administrador?"
+                />
+              </>
             )}
             <Box display="flex" justifyContent="flex-end" mt={3}>
-              <Button variant="contained" color="primary" onClick={handleSave}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() =>
+                  handleSwitchRole(selectedUser.id, selectedUser.isAdmin)
+                }
+              >
                 Guardar
               </Button>
               <Button
