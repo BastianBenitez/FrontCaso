@@ -45,6 +45,9 @@ export default function Buys() {
     setOpenModal(true);
   };
 
+  const handleRedirect = () => {
+    window.location.href = "http://localhost:5173"; // La URL a la que quieres redirigir
+  };
   // Función para manejar la cancelación del pedido
   const handleCancel = async (id: string) => {
     try {
@@ -123,6 +126,23 @@ export default function Buys() {
         height="100%"
         p={2}
       >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 1000,
+            mb: 2,
+            textAlign: "right",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleRedirect}
+            sx={{ marginRight: "1rem" }}
+          >
+            Volver
+          </Button>
+        </Box>
         <Box
           sx={{
             height: "80vh",

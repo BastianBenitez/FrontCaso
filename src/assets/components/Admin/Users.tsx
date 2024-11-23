@@ -49,6 +49,9 @@ export default function Users() {
       });
   }, []);
 
+  const handleRedirect = () => {
+    window.location.href = "http://localhost:5173"; // La URL a la que quieres redirigir
+  };
   const handleEdit = (row: any) => {
     setSelectedUser(row);
     setOpen(true);
@@ -134,6 +137,23 @@ export default function Users() {
         height="100%"
         p={2}
       >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 1000,
+            mb: 2,
+            textAlign: "right",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleRedirect}
+            sx={{ marginRight: "1rem" }}
+          >
+            Volver
+          </Button>
+        </Box>
         <Box
           sx={{
             height: "80vh",

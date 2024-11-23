@@ -108,6 +108,10 @@ export default function Products() {
       });
   };
 
+  const handleRedirect = () => {
+    window.location.href = "http://localhost:5173"; // La URL a la que quieres redirigir
+  };
+
   const columns: GridColDef[] = [
     { field: "nombre", headerName: "Nombre", flex: 1 },
     { field: "descripcion", headerName: "Descripción", flex: 2 },
@@ -191,6 +195,14 @@ export default function Products() {
             sx={{ marginRight: "1rem" }}
           >
             Agregar Producto
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleRedirect}
+            sx={{ marginRight: "1rem" }}
+          >
+            Volver
           </Button>
         </Box>
         <Box
