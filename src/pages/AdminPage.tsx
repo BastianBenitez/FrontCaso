@@ -9,10 +9,10 @@ import {
   type Navigation,
 } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
-import Users from "../assets/components/Admin/Users";
-import Products from "../assets/components/Admin/Products";
-import Buys from "../assets/components/Admin/Buys";
-import Report from "../assets/components/Admin/Report"; // Componente de Reporte
+import Users from "../assets/components/Admin/PovAdmin/Users";
+import Products from "../assets/components/Admin/PovAdmin/Products";
+import Buys from "../assets/components/Admin/PovAdmin/Buys";
+import Report from "../assets/components/Admin/Report/Report"; // Componente de Reporte
 import { useAuth } from "../AuthContext";
 import { Typography } from "@mui/material";
 
