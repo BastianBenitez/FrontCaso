@@ -3,7 +3,15 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { Button, Modal, TextField, Typography, Grid } from "@mui/material";
+import {
+  Button,
+  Modal,
+  TextField,
+  Typography,
+  Grid,
+  FormControlLabel,
+  Switch,
+} from "@mui/material";
 
 const darkTheme = createTheme({
   palette: {
@@ -36,30 +44,34 @@ export default function Products() {
   };
 
   const handleSaveEdit = () => {
-    if (!editProduct) return;
+    if (!editProduct || !editProduct.id) return; // Aseguramos que editProduct y editProduct.id existan
 
     const updatedProduct = {
-      ...editProduct,
+      nombre: editProduct.nombre,
+      descripcion: editProduct.descripcion,
       precio: Number(editProduct.precio), // Convertimos precio a número
+      url: editProduct.url,
+      disponible: editProduct.disponible, // Asegúrate de que este campo esté en el estado
     };
 
     axios
       .put(
         `http://localhost:3000/api/sushis/${editProduct.id}`,
-        JSON.stringify(updatedProduct),
+        updatedProduct,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", // Configuramos los headers para que sea JSON
           },
         }
       )
       .then(() => {
+        // Actualizamos las filas en el estado
         setRows((prevRows) =>
           prevRows.map((row) =>
             row.id === editProduct.id ? updatedProduct : row
           )
         );
-        handleEditClose();
+        handleEditClose(); // Cerramos el modal
       })
       .catch((error) => {
         console.error("Error al actualizar el producto:", error);
@@ -82,6 +94,12 @@ export default function Products() {
     { field: "descripcion", headerName: "Descripción", flex: 2 },
     { field: "precio", headerName: "Precio", flex: 1 },
     { field: "url", headerName: "URL", flex: 1 }, // Muestra la URL si es necesario
+    {
+      field: "disponible",
+      headerName: "Disponible",
+      width: 150,
+      type: "boolean",
+    },
     {
       field: "actions",
       headerName: "Acciones",
@@ -153,6 +171,7 @@ export default function Products() {
           <DataGrid
             rows={rows}
             columns={columns}
+            getRowId={(row) => row.id || row.nombre}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -234,6 +253,22 @@ export default function Products() {
                     fullWidth
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={editProduct.disponible || false} // Default to false if not set
+                        onChange={(e) =>
+                          setEditProduct({
+                            ...editProduct,
+                            disponible: e.target.checked,
+                          })
+                        }
+                      />
+                    }
+                    label="¿Disponible?"
+                  />
+                </Grid>
               </Grid>
               <Box mt={3} textAlign="right">
                 <Button
@@ -246,7 +281,7 @@ export default function Products() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSaveEdit}
+                  onClick={handleSaveEdit} // This function will now handle both 'isAdmin' and 'disponible'
                 >
                   Guardar Cambios
                 </Button>

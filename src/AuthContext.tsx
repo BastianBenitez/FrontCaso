@@ -41,7 +41,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const token = Cookies.get("token"); // Obtener el token de las cookies
-    console.log("Token desde las cookies:", token); // Log para el valor del token
 
     if (token && isTokenValid(token)) {
       try {
@@ -55,9 +54,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const login = (userData: { token: string; user: User }) => {
-    console.log("Iniciando sesión con el token:", userData.token);
     Cookies.set("token", userData.token, { path: "/" }); // Almacenar el token en las cookies
-    console.log("Token almacenado en cookies:", Cookies.get("token")); // Verifica el valor almacenado
     setUser(userData.user);
   };
 
