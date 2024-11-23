@@ -58,15 +58,6 @@ export default function AdminPage() {
       title: "Reporte",
       icon: <ReportIcon />, // Icono para la sección de reporte
     },
-    {
-      // Botón para redirigir a un sitio
-      segment: "redirect",
-      title: "Ir a Sitio Externo",
-      icon: <BarChartIcon />,
-      onClick: () => {
-        window.location.href = "https://www.ejemplo.com"; // Cambiar a la URL que desees
-      },
-    },
   ].filter((item) => {
     if (item.segment === "report") {
       // Solo mostrar "report" si el usuario es el dueño
