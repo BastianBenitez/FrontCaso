@@ -97,7 +97,7 @@ const NavBar: React.FC = () => {
       {cart.length > 0 ? (
         <>
           {cart.map((item) => {
-            const subtotal = item.price * item.quantity; // Calcula el subtotal por producto
+            const subtotal = item.price * item.quantity;
             return (
               <Box
                 key={item.id}
@@ -113,8 +113,7 @@ const NavBar: React.FC = () => {
                   Cantidad: {item.quantity}
                 </Typography>
                 <Typography variant="body2" sx={{ marginRight: 2 }}>
-                  Subtotal: ${subtotal.toLocaleString()} CLP{" "}
-                  {/* Muestra el subtotal */}
+                  Subtotal: ${subtotal.toLocaleString()} CLP
                 </Typography>
                 <IconButton
                   onClick={() => removeFromCart(item.id)}
@@ -125,7 +124,7 @@ const NavBar: React.FC = () => {
               </Box>
             );
           })}
-          {/* Muestra el total de la compra */}
+          {/* Cálculo del costo de envío */}
           <Box
             sx={{
               marginTop: "16px",
@@ -133,14 +132,68 @@ const NavBar: React.FC = () => {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant="h6">Total:</Typography>
+            <Typography variant="h6">Subtotal:</Typography>
             <Typography variant="h6">
-              $$
+              $
               {cart
                 .reduce((sum, item) => sum + item.price * item.quantity, 0)
                 .toLocaleString()}{" "}
               CLP
             </Typography>
+          </Box>
+          <Box
+            sx={{
+              marginTop: "8px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h6">Costo de Envío:</Typography>
+            <Typography variant="h6">$3,000 CLP</Typography>
+          </Box>
+          {/* Cálculo del total con envío */}
+          <Box
+            sx={{
+              marginTop: "8px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h6">Total:</Typography>
+            <Typography variant="h6">
+              $
+              {(
+                cart.reduce(
+                  (sum, item) => sum + item.price * item.quantity,
+                  0
+                ) + 3000
+              ).toLocaleString()}{" "}
+              CLP
+            </Typography>
+          </Box>
+          {/* Botón Ordenar */}
+          <Box
+            sx={{
+              marginTop: "24px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <button
+              style={{
+                padding: "12px 24px",
+                backgroundColor: "#ff5722",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+              onClick={() => alert("¡Orden enviada!")}
+            >
+              Ordenar
+            </button>
           </Box>
         </>
       ) : (
