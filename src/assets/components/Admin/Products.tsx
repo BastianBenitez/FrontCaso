@@ -24,7 +24,7 @@ export default function Products() {
   const [editProduct, setEditProduct] = React.useState<any | null>(null);
   const [openEditModal, setOpenEditModal] = React.useState(false);
 
-  const handleEditOpen = (row: any) => {
+  const handleEditOpen = (row?: any) => {
     setEditProduct({ ...row }); // Carga los datos del producto seleccionado
     setOpenEditModal(true); // Abre el modal
   };
@@ -43,9 +43,7 @@ export default function Products() {
     }
   };
 
-  const handleSaveEdit = () => {
-    if (!editProduct || !editProduct.id) return; // Aseguramos que editProduct y editProduct.id existan
-
+  const handleSave = () => {
     const updatedProduct = {
       nombre: editProduct.nombre,
       descripcion: editProduct.descripcion,
@@ -54,28 +52,49 @@ export default function Products() {
       disponible: editProduct.disponible, // Asegúrate de que este campo esté en el estado
     };
 
-    axios
-      .put(
-        `http://localhost:3000/api/sushis/${editProduct.id}`,
-        updatedProduct,
-        {
+    // Si no existe un id, significa que estamos creando un nuevo producto
+    if (!editProduct.id) {
+      axios
+        .post(`http://localhost:3000/api/sushis`, updatedProduct, {
           headers: {
             "Content-Type": "application/json", // Configuramos los headers para que sea JSON
           },
-        }
-      )
-      .then(() => {
-        // Actualizamos las filas en el estado
-        setRows((prevRows) =>
-          prevRows.map((row) =>
-            row.id === editProduct.id ? updatedProduct : row
-          )
-        );
-        handleEditClose(); // Cerramos el modal
-      })
-      .catch((error) => {
-        console.error("Error al actualizar el producto:", error);
-      });
+        })
+        .then((response) => {
+          // Suponiendo que el servidor devuelve el producto recién creado con su id
+          const newProduct = response.data;
+          // Añadimos el nuevo producto al estado
+          setRows((prevRows) => [...prevRows, newProduct]);
+          handleEditClose(); // Cerramos el modal
+        })
+        .catch((error) => {
+          console.error("Error al crear el producto:", error);
+        });
+    } else {
+      // Si existe un id, actualizamos el producto
+      axios
+        .put(
+          `http://localhost:3000/api/sushis/${editProduct.id}`,
+          updatedProduct,
+          {
+            headers: {
+              "Content-Type": "application/json", // Configuramos los headers para que sea JSON
+            },
+          }
+        )
+        .then(() => {
+          // Actualizamos las filas en el estado
+          setRows((prevRows) =>
+            prevRows.map((row) =>
+              row.id === editProduct.id ? updatedProduct : row
+            )
+          );
+          handleEditClose(); // Cerramos el modal
+        })
+        .catch((error) => {
+          console.error("Error al actualizar el producto:", error);
+        });
+    }
   };
 
   const handleDelete = (id: string) => {
@@ -157,6 +176,23 @@ export default function Products() {
         height="100%"
         p={2}
       >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 1000,
+            mb: 2,
+            textAlign: "right",
+          }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleEditOpen}
+            sx={{ marginRight: "1rem" }}
+          >
+            Agregar Producto
+          </Button>
+        </Box>
         <Box
           sx={{
             height: "80vh",
@@ -281,7 +317,7 @@ export default function Products() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSaveEdit} // This function will now handle both 'isAdmin' and 'disponible'
+                  onClick={handleSave} // This function will now handle both 'isAdmin' and 'disponible'
                 >
                   Guardar Cambios
                 </Button>
