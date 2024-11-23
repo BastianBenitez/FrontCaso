@@ -97,7 +97,12 @@ export default function AdminPage() {
       case "/report":
         return <Report />; // Componente de Reporte
       default:
-        return <Typography>Sin acceso</Typography>;
+        if (user?.isAdmin) {
+          // Si es admin, mostrar todas las opciones
+          return <Users />;
+        } else {
+          return <Typography>Sin acceso</Typography>;
+        }
     }
   };
 
