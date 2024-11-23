@@ -106,8 +106,38 @@ export default function Buys() {
   };
 
   // Función para manejar la cancelación del pedido
-  const handleCancel = (id: string) => {
-    console.log("Cancelar pedido con ID:", id);
+  const handleCancel = async (id: string) => {
+    try {
+      // Realiza la solicitud PUT utilizando axios
+      const response = await axios.put(
+        `http://localhost:3000/api/pedido/cancel/${id}`
+      );
+
+      // Verifica si la respuesta fue exitosa
+      if (response.status === 200) {
+        const updatedOrder = response.data;
+        console.log("Pedido cancelado:", updatedOrder);
+
+        // Actualiza el estado de las filas en el DataGrid
+        setRows((prevRows) =>
+          prevRows.map((row) =>
+            row.id === updatedOrder._id
+              ? { ...row, estado: "cancelado" } // Cambia el estado a 'cancelado'
+              : row
+          )
+        );
+      } else {
+        // Si no fue un éxito, muestra un mensaje de error
+        console.error("Error al cancelar el pedido:", response.data.message);
+        alert(
+          `Error: ${response.data.message || "No se pudo cancelar el pedido."}`
+        );
+      }
+    } catch (error) {
+      // Manejo de errores si la solicitud falla
+      console.error("Error en la solicitud:", error);
+      alert("Error en la solicitud de cancelación.");
+    }
   };
 
   const columns: GridColDef[] = [
