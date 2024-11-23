@@ -16,7 +16,7 @@ import Report from "../assets/components/Admin/Report/Report"; // Componente de 
 import { useAuth } from "../AuthContext";
 import { Typography } from "@mui/material";
 
-const demoTheme = createTheme({
+const Theme = createTheme({
   cssVariables: {
     colorSchemeSelector: "data-toolpad-color-scheme",
   },
@@ -112,7 +112,7 @@ export default function AdminPage() {
     <AppProvider
       navigation={NAVIGATION}
       router={router}
-      theme={demoTheme}
+      theme={Theme}
       branding={{
         logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
         title: "MUI",
