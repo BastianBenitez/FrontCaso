@@ -14,7 +14,7 @@ import Products from "../assets/components/Admin/Products";
 import Buys from "../assets/components/Admin/Buys";
 import Report from "../assets/components/Admin/Report"; // Componente de Reporte
 import { useAuth } from "../AuthContext";
-import { Typography, Button } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const demoTheme = createTheme({
   cssVariables: {
