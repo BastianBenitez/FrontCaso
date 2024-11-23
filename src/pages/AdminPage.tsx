@@ -14,6 +14,7 @@ import Products from "../assets/components/Admin/Products";
 import Buys from "../assets/components/Admin/Buys";
 import Report from "../assets/components/Admin/Report"; // Componente de Reporte
 import { useAuth } from "../AuthContext";
+import { Typography } from "@mui/material";
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -58,11 +59,22 @@ export default function AdminPage() {
       icon: <ReportIcon />, // Icono para la sección de reporte
     },
   ].filter((item) => {
-    // Mostrar solo las opciones que corresponden según el tipo de usuario
     if (item.segment === "report") {
-      return user?.isOwner; // Solo mostrar el reporte si el usuario es el dueño
+      // Solo mostrar "report" si el usuario es el dueño
+      return user?.isOwner;
     }
-    return user?.isAdmin || item.segment !== "users"; // Mostrar opciones para administradores
+
+    if (user?.isAdmin) {
+      // Si es admin, mostrar todas las opciones
+      return true;
+    }
+
+    // Para usuarios no administradores, solo mostrar opciones no relacionadas con "users", "products" o "buys"
+    return (
+      item.segment !== "users" &&
+      item.segment !== "products" &&
+      item.segment !== "buys"
+    );
   });
 
   const router = React.useMemo<Router>(() => {
@@ -85,12 +97,20 @@ export default function AdminPage() {
       case "/report":
         return <Report />; // Componente de Reporte
       default:
-        return <Users />;
+        return <Typography>Sin acceso</Typography>;
     }
   };
 
   return (
-    <AppProvider navigation={NAVIGATION} router={router} theme={demoTheme}>
+    <AppProvider
+      navigation={NAVIGATION}
+      router={router}
+      theme={demoTheme}
+      branding={{
+        logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
+        title: "MUI",
+      }}
+    >
       <DashboardLayout defaultSidebarCollapsed>
         {renderContent()}
       </DashboardLayout>
