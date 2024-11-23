@@ -14,7 +14,7 @@ import Products from "../assets/components/Admin/Products";
 import Buys from "../assets/components/Admin/Buys";
 import Report from "../assets/components/Admin/Report"; // Componente de Reporte
 import { useAuth } from "../AuthContext";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -57,6 +57,15 @@ export default function AdminPage() {
       segment: "report",
       title: "Reporte",
       icon: <ReportIcon />, // Icono para la sección de reporte
+    },
+    {
+      // Botón para redirigir a un sitio
+      segment: "redirect",
+      title: "Ir a Sitio Externo",
+      icon: <BarChartIcon />,
+      onClick: () => {
+        window.location.href = "https://www.ejemplo.com"; // Cambiar a la URL que desees
+      },
     },
   ].filter((item) => {
     if (item.segment === "report") {
