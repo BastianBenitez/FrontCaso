@@ -205,12 +205,14 @@ const NavBar: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <Box sx={{ width: "100wh", padding: "0 24px" }}>
+      <Box sx={{ width: "80%", padding: "0 24px" }}>
         <Toolbar
           sx={{
             justifyContent: "space-between",
             alignItems: "center",
-            width: "100%", // Asegura que el contenido ocupe todo el ancho disponible
+            maxWidth: "1000px", // Máximo de 1000px
+            width: "100%", // Asegura que ocupe todo el ancho disponible cuando sea menor a 1000px
+            margin: "0 auto", // Centra el contenido horizontalmente
           }}
         >
           <Typography variant="h5" sx={{ color: "white" }}>
