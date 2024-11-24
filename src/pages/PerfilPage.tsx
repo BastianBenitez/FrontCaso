@@ -126,7 +126,7 @@ const RegisterPage: React.FC = () => {
       </Typography>
       <Box
         component="form"
-        width="100%"
+        width="85%"
         maxWidth="400px"
         p={3}
         boxShadow={3}
