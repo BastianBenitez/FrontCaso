@@ -35,11 +35,10 @@ const Report = () => {
     setSelectedMonth(event.target.value);
   };
 
-  const fetchData = async () => {
+  // Función para obtener los datos de ventas (solo año)
+  const fetchSalesData = async () => {
     setLoading(true);
-
     try {
-      // Consultar la API para el reporte de ventas mensuales
       const salesResponse = await axios.get(
         `http://localhost:3000/api/reporte-ventas?ano=${selectedYear}`
       );
@@ -47,42 +46,46 @@ const Report = () => {
         month: month.mes,
         totalSales: month.totalVentas,
       }));
+      setSalesData(formattedSalesData);
+    } catch (error) {
+      console.error("Error al obtener los datos de ventas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      // Consultar la API para la cantidad de ventas por sushi
-      const sushiResponse = await axios.get(
-        `http://localhost:3000/api/cantidad-ventas-por-sushi?ano=${selectedYear}`
-      );
+  // Función para obtener los datos de ventas por sushi (mes y año)
+  const fetchSushiData = async () => {
+    setLoading(true);
+    try {
+      let url = `http://localhost:3000/api/cantidad-ventas-por-sushi?ano=${selectedYear}`;
+      if (selectedMonth) {
+        const monthIndex = months.findIndex((m) => m.label === selectedMonth);
+        url += `&mes=${monthIndex + 1}`; // Usamos el índice del mes para la consulta
+      }
+
+      const sushiResponse = await axios.get(url);
       const formattedSushiData = sushiResponse.data.map((sushi: any) => ({
         _id: sushi._id,
         tipoSushi: sushi.tipoSushi,
         cantidadVendida: sushi.cantidadVendida,
       }));
-
-      // Filtrar ventas por mes si se seleccionó uno
-      if (selectedMonth) {
-        const monthIndex = months.findIndex((m) => m.label === selectedMonth);
-        const filteredSales = formattedSalesData.filter(
-          (data: { month: string }) => months[monthIndex].label === data.month
-        );
-        setSalesData(filteredSales);
-      } else {
-        setSalesData(formattedSalesData);
-      }
-
       setSushiData(formattedSushiData);
     } catch (error) {
-      console.error("Error al obtener los datos:", error);
+      console.error("Error al obtener los datos de sushi:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleFilter = () => {
-    fetchData();
+    fetchSalesData();
+    fetchSushiData();
   };
 
   useEffect(() => {
-    fetchData();
+    fetchSalesData();
+    fetchSushiData();
   }, [selectedYear]);
 
   return (
