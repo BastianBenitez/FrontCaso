@@ -1,7 +1,10 @@
 // HeroSection.jsx
 import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Presentation = () => {
+  const navigate = useNavigate(); // Hook para manejar la navegación
+
   return (
     <Box
       sx={{
@@ -33,6 +36,9 @@ const Presentation = () => {
       </Typography>
       <Button
         variant="contained"
+        onClick={() => {
+          navigate("/menu"); // Navegación al menú
+        }}
         size="large"
         sx={{
           backgroundColor: "#ff5722",
@@ -43,7 +49,7 @@ const Presentation = () => {
           padding: { xs: "10px 20px", sm: "12px 24px", md: "14px 28px" },
         }}
       >
-        Ordenar
+        Ve nuestro Menu
       </Button>
     </Box>
   );
