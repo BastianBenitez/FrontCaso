@@ -40,6 +40,10 @@ const Report = () => {
     setSelectedMonth(event.target.value);
   };
 
+  const handleRedirect = () => {
+    window.location.href = "http://localhost:5173"; // La URL a la que quieres redirigir
+  };
+
   // Función para obtener los datos de ventas (solo año)
   const fetchSalesData = async () => {
     setLoading(true);
@@ -189,6 +193,18 @@ const Report = () => {
           disabled={loading}
         >
           {loading ? "Cargando..." : "Aplicar filtro"}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleRedirect}
+          sx={{
+            marginRight: "1rem",
+            marginBottom: "1rem",
+            marginTop: "1rem",
+          }}
+        >
+          Volver
         </Button>
       </Box>
 
