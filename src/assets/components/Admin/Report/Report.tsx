@@ -9,7 +9,6 @@ const Report = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [salesData, setSalesData] = useState<SalesData[]>([]);
   const [sushiData, setSushiData] = useState([]);
-  const [sushiDataPerMonth, setSushiDataPerMonth] = useState([]);
   const [loading, setLoading] = useState(false);
 
   interface SalesData {
