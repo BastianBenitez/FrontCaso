@@ -2,15 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { Button, FormControlLabel, Switch, Typography } from "@mui/material";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
 
 const modalStyle = {
   position: "absolute",
