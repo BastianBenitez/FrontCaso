@@ -93,7 +93,7 @@ const RegisterPage: React.FC = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
+      height="80vh"
       bgcolor="#050607" // Fondo oscuro
       p={2}
     >
