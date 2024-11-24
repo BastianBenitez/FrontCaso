@@ -83,13 +83,14 @@ export default function OrderPage() {
   };
 
   const columns: GridColDef[] = [
-    { field: "estado", headerName: "Estado", minWidth: 100 },
-    { field: "total", headerName: "Total", minWidth: 100 },
+    { field: "estado", headerName: "Estado", flex: 1, minWidth: 100 },
+    { field: "total", headerName: "Total", flex: 1, minWidth: 100 },
     {
       field: "actions",
       headerName: "Acciones",
       type: "actions",
-      width: 200,
+      minWidth: 200,
+      flex: 1,
       getActions: (params) => [
         <GridActionsCellItem
           icon={
@@ -119,52 +120,38 @@ export default function OrderPage() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        justifyContent="flex-start"
-        height="100%"
-        p={2}
+        height="80vh"
       >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: 1000,
             mb: 2,
-            textAlign: "right",
+            textAlign: "ccenter",
+            display: "flex",
+            justifyContent: "center",
           }}
         ></Box>
-        <Box
-          sx={{
-            height: "80vh",
-            width: "100%",
-            maxWidth: 1000,
-            bgcolor: "#1a1a1a",
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 2,
-            marginTop: 0,
-          }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
               },
-            }}
-            pageSizeOptions={[5, 10, 25]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            rowHeight={60}
-          />
-        </Box>
-        <PedidoDetallesModal
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          pedidoId={selectedPedido?.id} // Asegúrate de usar solo el ID
+            },
+          }}
+          pageSizeOptions={[5, 10, 25]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          rowHeight={60}
+          sx={{ width: "85vw", maxWidth: "1000px" }}
         />
       </Box>
+      <PedidoDetallesModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        pedidoId={selectedPedido?.id} // Asegúrate de usar solo el ID
+      />
     </ThemeProvider>
   );
 }
