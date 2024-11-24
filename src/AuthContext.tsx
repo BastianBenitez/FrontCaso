@@ -18,7 +18,7 @@ interface User {
   fechaRegistro: Date;
   isAdmin: boolean;
   isOwner: boolean;
-  _id: string;
+  id: string;
 }
 
 // Define la interfaz para el contexto de autenticación
