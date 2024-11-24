@@ -7,10 +7,15 @@ import { Box, TextField, MenuItem, Button } from "@mui/material";
 const Report = () => {
   const [selectedYear, setSelectedYear] = useState(2024);
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [salesData, setSalesData] = useState([]);
+  const [salesData, setSalesData] = useState<SalesData[]>([]);
   const [sushiData, setSushiData] = useState([]);
   const [sushiDataPerMonth, setSushiDataPerMonth] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  interface SalesData {
+    month: string; // El tipo de sushi
+    totalSales: number; // Las ventas totales
+  }
 
   const months = [
     { value: "", label: "Todos" },
@@ -89,14 +94,33 @@ const Report = () => {
       await fetchSushiData();
     } else {
       try {
-        // Construir la URL con los parámetros de mes y año seleccionados
         const url = `http://localhost:3000/api/pedidos-sushi-per-month?mes=${selectedMonth}&ano=${selectedYear}`;
 
-        // Realizar la solicitud GET a la API
         const sushiResponse = await axios.get(url);
 
-        // Actualizar el estado con los datos formateados
-        setSushiData(sushiResponse.data);
+        const groupedData = sushiResponse.data.reduce(
+          (acc: any, sushi: any) => {
+            const { tipoSushi, totalVentas } = sushi;
+
+            if (acc[tipoSushi]) {
+              acc[tipoSushi] += totalVentas;
+            } else {
+              acc[tipoSushi] = totalVentas;
+            }
+
+            return acc;
+          },
+          {}
+        );
+
+        const formattedSalesData: SalesData[] = Object.keys(groupedData).map(
+          (key) => ({
+            month: key,
+            totalSales: groupedData[key],
+          })
+        );
+
+        setSalesData(formattedSalesData); // Ahora TypeScript sabe que salesData es un array de SalesData
       } catch (error) {
         console.error("Error al obtener los datos de sushi:", error);
       } finally {
