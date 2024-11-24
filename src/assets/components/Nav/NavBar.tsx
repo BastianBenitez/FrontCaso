@@ -19,15 +19,84 @@ import LinkBar from "./LinkBar";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AccountSignedIn from "./AccountSignedIn";
 import { useCart } from "../../../CartContext"; // Importa tu contexto del carrito
+import { useAuth } from "../../../AuthContext";
 
 const NavBar: React.FC = () => {
-  const { cart } = useCart(); // Accede al carrito desde el contexto
+  const { user } = useAuth();
+  const { cart, clearCart } = useCart(); // Accede al carrito desde el contexto
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false); // Estado para el carrito
   const { removeFromCart } = useCart();
 
   const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
   const toggleCart = (open: boolean) => () => setCartOpen(open);
+
+  const addOrder = async (usuarioId: string, pedidoId: string) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/users/agregar-pedido",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ usuarioId, pedidoId }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Pedido agregado al historial:", data.historialPedidos);
+      } else {
+        const errorData = await response.json();
+        console.error("Error al agregar el pedido al historial:", errorData);
+        alert(`Error: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Error al agregar el pedido al historial:", error);
+      alert("Ocurrió un error al intentar agregar el pedido al historial.");
+    }
+  };
+
+  const handleOrder = async () => {
+    if (!user || cart.length === 0) {
+      alert("Debes iniciar sesión y tener al menos un producto en el carrito.");
+      return;
+    }
+
+    const pedido = {
+      sushis: cart.map((item) => ({
+        sushi: item.id,
+        cantidad: item.quantity,
+      })),
+      total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      cliente: `${user.nombre} ${user.apellido}`,
+      estado: "pendiente",
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/pedido", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pedido),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        await addOrder(user.id, data.id);
+        alert("¡Pedido enviado con éxito!");
+        clearCart();
+      } else {
+        const errorData = await response.json();
+        alert(`Error al enviar el pedido: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar el pedido:", error);
+      alert("Ocurrió un error al intentar enviar el pedido.");
+    }
+  };
 
   const links = [
     { to: "/", label: "Inicio", key: "inicio" },
@@ -182,7 +251,7 @@ const NavBar: React.FC = () => {
                 fontSize: "16px",
                 fontWeight: "bold",
               }}
-              onClick={() => alert("¡Orden enviada!")}
+              onClick={handleOrder}
             >
               Ordenar
             </button>
