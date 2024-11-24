@@ -16,7 +16,9 @@ const AccountSignedIn: React.FC = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+    >
       {user ? (
         <>
           <Avatar
@@ -63,13 +65,11 @@ const AccountSignedIn: React.FC = () => {
           color="inherit"
           href="/login"
           sx={{
-            padding: "5px 12px",
             backgroundColor: "#ff5722", // Mismo color de fondo
             color: "white",
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
-            fontSize: "16px",
             fontWeight: "bold",
             ":hover": {
               backgroundColor: "#e64a19", // Un color de hover similar
