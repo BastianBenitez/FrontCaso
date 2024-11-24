@@ -1,5 +1,4 @@
 import * as React from "react";
-import { createTheme } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ReportIcon from "@mui/icons-material/Report"; // Icono para el reporte

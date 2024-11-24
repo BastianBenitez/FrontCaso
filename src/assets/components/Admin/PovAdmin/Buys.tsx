@@ -6,14 +6,6 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import PedidoDetallesModal from "./ShowDetails";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark", // Modo oscuro
-  },
-});
-
-// Componente para mostrar los detalles del pedido en un modal
-
 export default function Buys() {
   const [rows, setRows] = React.useState<any[]>([]);
   const [selectedPedido, setSelectedPedido] = React.useState<any>(null);
@@ -41,58 +33,52 @@ export default function Buys() {
 
   // Función para abrir el modal con los detalles del pedido
   const handleShowDetails = (pedido: any) => {
-    setSelectedPedido(pedido); // Guarda el objeto completo para otros usos si lo necesitas
+    setSelectedPedido(pedido);
     setOpenModal(true);
   };
 
+  // Redirección a la página principal
   const handleRedirect = () => {
     window.location.href = "http://localhost:5173"; // La URL a la que quieres redirigir
   };
+
   // Función para manejar la cancelación del pedido
   const handleCancel = async (id: string) => {
     try {
-      // Realiza la solicitud PUT utilizando axios
       const response = await axios.put(
         `http://localhost:3000/api/pedido/cancel/${id}`
       );
 
-      // Verifica si la respuesta fue exitosa
       if (response.status === 200) {
         const updatedOrder = response.data;
         console.log("Pedido cancelado:", updatedOrder);
-
-        // Actualiza el estado de las filas en el DataGrid
         setRows((prevRows) =>
           prevRows.map((row) =>
-            row.id === updatedOrder._id
-              ? { ...row, estado: "cancelado" } // Cambia el estado a 'cancelado'
-              : row
+            row.id === updatedOrder._id ? { ...row, estado: "cancelado" } : row
           )
         );
       } else {
-        // Si no fue un éxito, muestra un mensaje de error
         console.error("Error al cancelar el pedido:", response.data.message);
         alert(
           `Error: ${response.data.message || "No se pudo cancelar el pedido."}`
         );
       }
     } catch (error) {
-      // Manejo de errores si la solicitud falla
       console.error("Error en la solicitud:", error);
       alert("Error en la solicitud de cancelación.");
     }
   };
 
   const columns: GridColDef[] = [
-    { field: "cliente", headerName: "Cliente", flex: 1 },
-    { field: "estado", headerName: "Estado", flex: 1 },
-    { field: "fecha", headerName: "Fecha", flex: 2 },
-    { field: "total", headerName: "Total", flex: 1 },
+    { field: "cliente", headerName: "Cliente", minWidth: 100 },
+    { field: "estado", headerName: "Estado", minWidth: 100 },
+    { field: "fecha", headerName: "Fecha", minWidth: 100 },
+    { field: "total", headerName: "Total", minWidth: 100 },
     {
       field: "actions",
       headerName: "Acciones",
       type: "actions",
-      width: 350,
+      width: 200,
       getActions: (params) => [
         <GridActionsCellItem
           icon={
@@ -117,84 +103,58 @@ export default function Buys() {
   ];
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <>
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        justifyContent="flex-start"
-        height="100%"
-        p={2}
+        height="80vh"
       >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: 1000,
             mb: 2,
-            textAlign: "right",
+            textAlign: "ccenter",
+            display: "flex",
+            justifyContent: "center", // Alinea el botón de forma correcta
           }}
         >
           <Button
             variant="contained"
             color="primary"
             onClick={handleRedirect}
-            sx={{ marginRight: "1rem" }}
+            sx={{
+              marginRight: "1rem",
+              marginBottom: "1rem",
+              marginTop: "1rem",
+            }}
           >
             Volver
           </Button>
         </Box>
-        <Box
-          sx={{
-            height: "80vh",
-            width: "100%",
-            maxWidth: 1000,
-            bgcolor: "#1a1a1a",
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 2,
-            marginTop: 0,
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
           }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5, 10, 25]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            rowHeight={60}
-            sx={{
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: "#333",
-                color: "#b0b0b0",
-              },
-              "& .MuiDataGrid-cell": {
-                color: "white",
-              },
-              "& .MuiCheckbox-root": {
-                color: "white",
-              },
-              "& .MuiPaginationItem-root": {
-                color: "white",
-              },
-              "& .MuiDataGrid-footerContainer": {
-                backgroundColor: "#333",
-              },
-            }}
-          />
-        </Box>
-        <PedidoDetallesModal
-          open={openModal}
-          onClose={() => setOpenModal(false)}
-          pedidoId={selectedPedido?.id} // Asegúrate de usar solo el ID
+          pageSizeOptions={[5, 10, 25]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          rowHeight={60}
+          sx={{ width: "85vw", maxWidth: "700px" }}
         />
       </Box>
-    </ThemeProvider>
+
+      <PedidoDetallesModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        pedidoId={selectedPedido?.id} // Asegúrate de usar solo el ID
+      />
+    </>
   );
 }
