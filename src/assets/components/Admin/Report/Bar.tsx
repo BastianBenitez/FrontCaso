@@ -1,23 +1,19 @@
+import * as React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts/ChartsAxis";
 import { legendClasses } from "@mui/x-charts/ChartsLegend";
 
-const salesData = [
-  { month: "Enero", totalSales: 0 },
-  { month: "Febrero", totalSales: 0 },
-  { month: "Marzo", totalSales: 0 },
-  { month: "Abril", totalSales: 0 },
-  { month: "Mayo", totalSales: 0 },
-  { month: "Junio", totalSales: 0 },
-  { month: "Julio", totalSales: 0 },
-  { month: "Agosto", totalSales: 0 },
-  { month: "Septiembre", totalSales: 0 },
-  { month: "Octubre", totalSales: 0 },
-  { month: "Noviembre", totalSales: 1160830 },
-  { month: "Diciembre", totalSales: 0 },
-];
+// Definir la interfaz para los datos
+interface SalesData {
+  month: string;
+  totalSales: number;
+}
 
-export default function SalesBarChart() {
+interface SalesBarChartProps {
+  data: SalesData[]; // La propiedad 'data' que será un arreglo de SalesData
+}
+
+const Bar: React.FC<SalesBarChartProps> = ({ data }) => {
   return (
     <BarChart
       sx={() => ({
@@ -37,12 +33,14 @@ export default function SalesBarChart() {
           },
         },
       })}
-      xAxis={[{ scaleType: "band", data: salesData.map((data) => data.month) }]} // Meses en el eje X
+      xAxis={[
+        { scaleType: "band", data: data.map((dataItem) => dataItem.month) },
+      ]} // Meses en el eje X
       yAxis={[{ scaleType: "linear" }]} // Configuración del eje Y
       margin={{ left: 70 }} // Aumenta el margen izquierdo
       series={[
         {
-          data: salesData.map((data) => data.totalSales),
+          data: data.map((dataItem) => dataItem.totalSales), // Datos de ventas
           label: "Ventas Totales", // Agregar la etiqueta para la serie
         },
       ]}
@@ -51,4 +49,6 @@ export default function SalesBarChart() {
       legend={{}}
     />
   );
-}
+};
+
+export default Bar;
