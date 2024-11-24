@@ -6,6 +6,7 @@ interface SushiData {
   _id: string;
   cantidadVendida: number;
   tipoSushi: string;
+  totalVentas: string;
 }
 
 interface PieActiveArcProps {
