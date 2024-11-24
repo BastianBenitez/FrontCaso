@@ -90,20 +90,20 @@ export default function Users() {
   };
 
   const columns: GridColDef[] = [
-    { field: "nombre", headerName: "Nombre", flex: 1 },
-    { field: "apellido", headerName: "Apellido", flex: 1 },
-    { field: "email", headerName: "Correo Electrónico", flex: 1 },
+    { field: "nombre", headerName: "Nombre", minWidth: 100 },
+    { field: "apellido", headerName: "Apellido", minWidth: 100 },
+    { field: "email", headerName: "Correo Electrónico", minWidth: 100 },
     {
       field: "isAdmin",
       headerName: "Administrador",
-      width: 150,
+      minWidth: 100,
       type: "boolean",
     },
     {
       field: "actions",
       headerName: "Acciones",
       type: "actions",
-      width: 250,
+      width: 200,
       getActions: (params) => [
         <GridActionsCellItem
           icon={
@@ -128,78 +128,52 @@ export default function Users() {
   ];
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <>
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="flex-start"
-        height="100%"
-        p={2}
+        height="80vh"
       >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: 1000,
             mb: 2,
-            textAlign: "right",
+            textAlign: "ccenter",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <Button
             variant="contained"
             color="primary"
             onClick={handleRedirect}
-            sx={{ marginRight: "1rem" }}
+            sx={{
+              marginRight: "1rem",
+              marginBottom: "1rem",
+              marginTop: "1rem",
+            }}
           >
             Volver
           </Button>
         </Box>
-        <Box
-          sx={{
-            height: "80vh",
-            width: "100%",
-            maxWidth: 1000,
-            bgcolor: "#1a1a1a",
-            borderRadius: 2,
-            boxShadow: 3,
-            padding: 2,
-            marginTop: 0,
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
           }}
-        >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5, 10, 25]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            rowHeight={60}
-            sx={{
-              "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: "#333",
-                color: "#b0b0b0",
-              },
-              "& .MuiDataGrid-cell": {
-                color: "white",
-              },
-              "& .MuiCheckbox-root": {
-                color: "white",
-              },
-              "& .MuiPaginationItem-root": {
-                color: "white",
-              },
-              "& .MuiDataGrid-footerContainer": {
-                backgroundColor: "#333",
-              },
-            }}
-          />
-        </Box>
+          pageSizeOptions={[5, 10, 25]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          rowHeight={60}
+          sx={{ width: "85vw", maxWidth: "760px" }}
+        />
         <Modal open={open} onClose={handleClose}>
           <Box sx={modalStyle}>
             <Typography variant="h6" mb={2}>
@@ -247,6 +221,6 @@ export default function Users() {
           </Box>
         </Modal>
       </Box>
-    </ThemeProvider>
+    </>
   );
 }
