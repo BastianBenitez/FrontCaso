@@ -97,7 +97,7 @@ export default function AdminPage() {
       router={router}
       branding={{
         logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
-        title: "MUI",
+        title: "Administración",
       }}
     >
       <DashboardLayout defaultSidebarCollapsed>

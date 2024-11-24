@@ -20,6 +20,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AccountSignedIn from "./AccountSignedIn";
 import { useCart } from "../../../CartContext"; // Importa tu contexto del carrito
 import { useAuth } from "../../../AuthContext";
+import { Link } from "react-router-dom";
 
 const NavBar: React.FC = () => {
   const { user } = useAuth();
@@ -284,10 +285,12 @@ const NavBar: React.FC = () => {
             margin: "0 auto", // Centra el contenido horizontalmente
           }}
         >
-          <Typography variant="h5" sx={{ color: "white" }}>
-            Fukusuke Sushi
-          </Typography>
-
+          {" "}
+          <Link to={"/"}>
+            <Typography variant="h5" sx={{ color: "white" }}>
+              Fukusuke Sushi
+            </Typography>
+          </Link>
           <Box
             sx={{
               display: "flex",
