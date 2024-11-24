@@ -83,9 +83,14 @@ export default function Users() {
   };
 
   const columns: GridColDef[] = [
-    { field: "nombre", headerName: "Nombre", minWidth: 100 },
-    { field: "apellido", headerName: "Apellido", minWidth: 100 },
-    { field: "email", headerName: "Correo Electrónico", minWidth: 100 },
+    { field: "nombre", headerName: "Nombre", flex: 1, minWidth: 100 },
+    { field: "apellido", headerName: "Apellido", flex: 1, minWidth: 100 },
+    {
+      field: "email",
+      headerName: "Correo Electrónico",
+      flex: 2,
+      minWidth: 100,
+    },
     {
       field: "isAdmin",
       headerName: "Administrador",
@@ -165,7 +170,7 @@ export default function Users() {
           checkboxSelection
           disableRowSelectionOnClick
           rowHeight={60}
-          sx={{ width: "85vw", maxWidth: "760px" }}
+          sx={{ width: "85vw", maxWidth: "900px" }}
         />
         <Modal open={open} onClose={handleClose}>
           <Box sx={modalStyle}>

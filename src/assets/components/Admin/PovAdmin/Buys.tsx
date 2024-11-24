@@ -69,10 +69,10 @@ export default function Buys() {
   };
 
   const columns: GridColDef[] = [
-    { field: "cliente", headerName: "Cliente", minWidth: 100 },
-    { field: "estado", headerName: "Estado", minWidth: 100 },
-    { field: "fecha", headerName: "Fecha", minWidth: 100 },
-    { field: "total", headerName: "Total", minWidth: 100 },
+    { field: "cliente", headerName: "Cliente", flex: 1, minWidth: 100 },
+    { field: "estado", headerName: "Estado", flex: 1, minWidth: 100 },
+    { field: "fecha", headerName: "Fecha", flex: 1, minWidth: 100 },
+    { field: "total", headerName: "Total", flex: 1, minWidth: 100 },
     {
       field: "actions",
       headerName: "Acciones",
@@ -145,7 +145,7 @@ export default function Buys() {
           checkboxSelection
           disableRowSelectionOnClick
           rowHeight={60}
-          sx={{ width: "85vw", maxWidth: "700px" }}
+          sx={{ width: "85vw", maxWidth: "1000px" }}
         />
       </Box>
 
