@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AdminPage from "./pages/AdminPage";
 import PerfilPage from "./pages/PerfilPage";
+import OrderPage from "./pages/OrderPage";
 import { AuthProvider } from "./AuthContext";
 import { CartProvider } from "./CartContext";
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/perfil" element={<PerfilPage />} />
+            <Route path="/orders" element={<OrderPage />} />
           </Route>
           <Route>
             <Route path="/admin" element={<AdminPage />} />

@@ -16,22 +16,6 @@ import Report from "../assets/components/Admin/Report/Report"; // Componente de 
 import { useAuth } from "../AuthContext";
 import { Typography } from "@mui/material";
 
-const Theme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: "data-toolpad-color-scheme",
-  },
-  colorSchemes: { light: true, dark: true },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 600,
-      lg: 1200,
-      xl: 1536,
-    },
-  },
-});
-
 export default function AdminPage() {
   const [pathname, setPathname] = React.useState("/dashboard");
   const { user } = useAuth(); // Accedemos al contexto para obtener la información del usuario
@@ -112,7 +96,6 @@ export default function AdminPage() {
     <AppProvider
       navigation={NAVIGATION}
       router={router}
-      theme={Theme}
       branding={{
         logo: <img src="https://mui.com/static/logo.png" alt="MUI logo" />,
         title: "MUI",
