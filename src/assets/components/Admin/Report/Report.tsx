@@ -119,7 +119,8 @@ const Report = () => {
           })
         );
 
-        setSalesData(formattedSalesData); // Ahora TypeScript sabe que salesData es un array de SalesData
+        setSalesData(formattedSalesData);
+        setSushiData(sushiResponse.data);
       } catch (error) {
         console.error("Error al obtener los datos de sushi:", error);
       } finally {
