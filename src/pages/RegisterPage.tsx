@@ -95,7 +95,7 @@ const RegisterPage: React.FC = () => {
       justifyContent="center"
       height="80vh"
       bgcolor="#050607" // Fondo oscuro
-      p={2}
+      sx={{ marginTop: "3rem" }}
     >
       <Typography variant="h4" color="white" gutterBottom>
         Registrarse
