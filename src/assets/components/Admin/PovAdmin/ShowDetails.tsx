@@ -49,6 +49,7 @@ const PedidoDetallesModal = ({
           borderRadius: 2,
           width: "90%",
           maxWidth: 600,
+          color: "white",
         }}
       >
         {loading ? (
