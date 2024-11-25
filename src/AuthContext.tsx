@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, { createContext, useContext, ReactNode } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -33,14 +27,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
   const isTokenValid = (token: string): boolean => {
     const decoded: any = jwtDecode(token);
     return decoded.exp * 1000 > Date.now();
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const token = Cookies.get("token"); // Obtener el token de las cookies
 
     if (token && isTokenValid(token)) {

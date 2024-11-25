@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { redirect, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 const RegisterPage: React.FC = () => {
   const { user, logout } = useAuth();
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [confirmContrasena, setConfirmContrasena] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [contrasenaError, setContrasenaError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [nombre, setNombre] = React.useState("");
+  const [apellido, setApellido] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [telefono, setTelefono] = React.useState("");
+  const [direccion, setDireccion] = React.useState("");
+  const [contrasena, setContrasena] = React.useState("");
+  const [confirmContrasena, setConfirmContrasena] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [contrasenaError, setContrasenaError] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
   const navigate = useNavigate();
 
   // Cargar datos del contexto al iniciar el componente
-  useEffect(() => {
+  React.useEffect(() => {
     if (user) {
       setNombre(user.nombre || "");
       setApellido(user.apellido || "");

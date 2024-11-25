@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, TextField, Typography, Link } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [email, setEmail] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [confirmContrasena, setConfirmContrasena] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [contrasenaError, setContrasenaError] = useState("");
+  const [nombre, setNombre] = React.useState("");
+  const [apellido, setApellido] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [telefono, setTelefono] = React.useState("");
+  const [direccion, setDireccion] = React.useState("");
+  const [contrasena, setContrasena] = React.useState("");
+  const [confirmContrasena, setConfirmContrasena] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [contrasenaError, setContrasenaError] = React.useState("");
   const navigate = useNavigate();
 
   const handleRegister = async () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -25,8 +25,8 @@ import { Link } from "react-router-dom";
 const NavBar: React.FC = () => {
   const { user } = useAuth();
   const { cart, clearCart } = useCart(); // Accede al carrito desde el contexto
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false); // Estado para el carrito
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [cartOpen, setCartOpen] = React.useState(false); // Estado para el carrito
   const { removeFromCart } = useCart();
 
   const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);

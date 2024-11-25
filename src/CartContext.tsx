@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 interface CartItem {
   id: string; // Asegúrate de que el tipo aquí sea el mismo en todo el proyecto
@@ -22,7 +22,7 @@ const CartContext = createContext<CartContextProps | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = React.useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {

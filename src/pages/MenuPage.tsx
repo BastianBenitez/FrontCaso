@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import CardMenu from "../assets/components/Menu/CardMenu";
 import { Box } from "@mui/material"; // Corrige la importación de Typography
 import Filters from "../assets/components/Menu/Filters"; // Importa el nuevo componente
@@ -15,13 +15,13 @@ interface Producto {
 }
 
 const MenuPage = () => {
-  const [sushiItems, setSushiItems] = useState<Producto[]>([]);
-  const [filter, setFilter] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOrder, setSortOrder] = useState<string>("asc");
+  const [sushiItems, setSushiItems] = React.useState<Producto[]>([]);
+  const [filter, setFilter] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [sortOrder, setSortOrder] = React.useState<string>("asc");
   const { addToCart } = useCart(); // Estado del carrito
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetch("http://localhost:3000/api/sushis")
       .then((response) => response.json())
       .then((data) => {

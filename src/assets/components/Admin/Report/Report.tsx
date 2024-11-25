@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import Bar from "./Bar";
 import Pie from "./Pie";
 import { Box, TextField, MenuItem, Button } from "@mui/material";
 
 const Report = () => {
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [salesData, setSalesData] = useState<SalesData[]>([]);
-  const [sushiData, setSushiData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [selectedYear, setSelectedYear] = React.useState(2024);
+  const [selectedMonth, setSelectedMonth] = React.useState("");
+  const [salesData, setSalesData] = React.useState<SalesData[]>([]);
+  const [sushiData, setSushiData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   interface SalesData {
     month: string; // El tipo de sushi
@@ -147,7 +147,7 @@ const Report = () => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchSalesData();
     fetchSushiData();
   }, [selectedYear]);
